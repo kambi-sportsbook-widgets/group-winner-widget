@@ -1,6 +1,6 @@
 {
   "name": "group-winner-widget",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Group Winner Widget",
   "main": "dist/index.html",
   "scripts": {
@@ -8,15 +8,15 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-      "changelog": "latest",
-      "gulp": "^3.9.0",
-      "require-dir": "^0.3.0",
-      "widget-core-library": "git+ssh://git@github.com/kambi-sportsbook-widgets/widget-core-library.git#v2.6.1",
-      "widget-build-tools": "git+ssh://git@github.com:kambi-sportsbook-widgets/widget-build-tools.git#v1.4.3"
-   },
+    "changelog": "latest",
+    "gulp": "^3.9.0",
+    "require-dir": "^0.3.0",
+    "widget-core-library": "git+ssh://git@github.com/kambi-sportsbook-widgets/widget-core-library.git#v2.6.1",
+    "widget-build-tools": "git+ssh://git@github.com:kambi-sportsbook-widgets/widget-build-tools.git#v1.4.3"
+  },
   "repository": {
     "type": "git",
-     "url": "git+ssh://git@github.com/kambi-sportsbook-widgets/group-winner-widget.git"
+    "url": "git+ssh://git@github.com/kambi-sportsbook-widgets/group-winner-widget.git"
   },
   "license": "MIT",
   "bugs": {
