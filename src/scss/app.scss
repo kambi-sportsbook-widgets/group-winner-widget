@@ -1,0 +1,20 @@
+//Main scss file
+
+//Included compass mixins
+@import 'compass/css3';
+
+//Included variables, mixins and layout
+@import 'app-base-all';
+
+//Include own custom plugins
+@import 'plugins/pagination';
+@import 'plugins/animation';
+
+//Included widget related styles
+@import 'widget/variables';
+@import 'widget/overrides';
+@import 'widget/general';
+@import 'widget/widget-theme';
+
+// Tournament custom css
+//@import '../custom/style';

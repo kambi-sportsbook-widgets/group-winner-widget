@@ -1,0 +1,107 @@
+<!doctype html>
+<html id='app'>
+<head>
+   <title>Tournament Group Winner</title>
+   <meta charset="UTF-8">
+   <meta name="apple-mobile-web-app-title" content="Kambi">
+   <meta name="description" content="Tournament Group Winner Widget">
+   <meta name="HandheldFriendly" content="True">
+   <meta name="MobileOptimized" content="320">
+   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+   <meta name="fragment" content="!"/>
+
+   <meta name="mobile-web-app-capable" content="yes">
+   <meta name="apple-mobile-web-app-capable" content="yes">
+   <meta name="apple-mobile-web-app-status-bar-style" content="black">
+   <meta name="apple-mobile-web-app-title" content="">
+
+   <!-- build:css -->
+   <!-- This section will be replaced in the gulp build process -->
+   <link rel="stylesheet" type="text/css" href="transpiled/css/app.css"/>
+   <!-- endbuild -->
+
+   <link rel="stylesheet" type="text/css" rv-href="widgetCss"/>
+
+   <!-- Customer CSS -->
+   <link rel="stylesheet" type="text/css" rv-href="customCss"/>
+
+
+   <!-- build:third-party-libs -->
+   <script src="https://s3-eu-west-1.amazonaws.com/kambi-widgets/widget-third-party/v1.2.0/thirdparty.js"></script>
+   <!-- endbuild -->
+
+   <!-- build:kambi-widget-api -->
+   <!-- This section will be replaced in the gulp build process -->
+   <script src="https://c3-static.kambi.com/sb-mobileclient/widget-api/1.0.0.13/kambi-widget-api.js"></script>
+   <!-- endbuild -->
+</head>
+<body class="kw-body KambiWidget-font">
+<div class="KambiWidget-card-text-color l-flexbox l-vertical l-expander" rv-cloak>
+   <!--Header-->
+   <header class="KambiWidget-card-border-color KambiWidget-font kw-header l-flexbox l-align-center l-pl-16">
+
+      <div class="kw-header-logo kw-custom-logo-small"></div>
+      <div class="kw-header-text-container">
+         <div class="kw-header-title text-truncate">{title}</div>
+         <div class="kw-header-tagline text-truncate">{tagline}</div>
+      </div>
+
+   </header>
+
+   <!--Main-->
+   <main id="main" class="kw-main">
+
+      <!--Pagination-->
+      <div class="kw-footer">
+         <div id="pagination" class="kw-pagination KambiWidget-font l-flexbox l-expander"></div>
+      </div>
+
+      <section class="l-flexbox l-vertical l-flex-1 l-pr-12 l-pl-16" id="groups">
+         <!--Groups-->
+         <div rv-each-event="_events">
+
+            <div class="l-flexbox l-vertical l-flex-1">
+
+               <!--Teams-->
+               <div class="KambiWidget-font kw-teams l-flexbox"
+                    rv-anim-disable="event.animationDisable"
+                    rv-anim-stagger="index"
+                    rv-each-outcome="event.betOffers | array_at 0 'outcomes'">
+
+
+                  <div class="kw-team l-flexbox l-align-center l-flex-4">
+                     <span class="text-truncate">{outcome.label}</span>
+                  </div>
+
+                  <div class="l-flexbox l-align-center">
+                     <outcome-component-no-label outcome-attr="outcome" event-attr="event"></outcome-component-no-label>
+                  </div>
+
+               </div>
+
+            </div>
+
+         </div>
+
+      </section>
+   </main>
+</div>
+
+<!-- build:js -->
+<!-- This section will be replaced in the gulp build process -->
+<script src="/node_modules/widget-core-library/src/transpiled/js/coreLibrary.js"></script>
+<script src="/node_modules/widget-core-library/src/transpiled/js/Module/utilModule.js"></script>
+<script src="/node_modules/widget-core-library/src/transpiled/js/Module/widgetModule.js"></script>
+<script src="/node_modules/widget-core-library/src/transpiled/js/Module/offeringModule.js"></script>
+<script src="/node_modules/widget-core-library/src/transpiled/js/Module/statisticsModule.js"></script>
+<script src="/node_modules/widget-core-library/src/transpiled/js/Module/translationModule.js"></script>
+<script src="/node_modules/widget-core-library/src/transpiled/js/Component/Component.js"></script>
+<script src="/node_modules/widget-core-library/src/transpiled/js/Component/OutcomeComponent/OutcomeComponent.js"></script>
+
+<script src="transpiled/js/app.js"></script>
+<script src="transpiled/js/components/CustomPaginationComponent.js"></script>
+<!-- endbuild -->
+
+</body>
+</html>
