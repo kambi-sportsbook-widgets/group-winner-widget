@@ -8,6 +8,7 @@
 
 //Include own custom plugins
 @import 'plugins/pagination';
+@import 'plugins/responsive';
 @import 'plugins/animation';
 
 //Included widget related styles
@@ -17,4 +18,4 @@
 @import 'widget/widget-theme';
 
 // Tournament custom css
-//@import '../custom/style';
+@import 'widget/scroll-component';

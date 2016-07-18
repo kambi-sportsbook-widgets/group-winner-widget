@@ -1,0 +1,170 @@
+$scroll-component-height: 48px;
+
+.kw-pagination {
+   position: relative;
+   width: 100%;
+
+   .kw-scroll-container {
+      height: $scroll-component-height;
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+      @include transition(all .3s);
+      margin: 0 50px;
+
+      &.kw-gradient {
+         //-webkit-mask-image: $webkit-full-gradient;
+      }
+
+      > div {
+         @include transition(all .3s);
+      }
+
+      @include device($mobile) {
+         .ismobile & {
+            -webkit-mask-image: none;
+            mask: none;
+         }
+      }
+   }
+
+   .kw-scroll-inner {
+      height: $scroll-component-height;
+   }
+
+   &:hover {
+      .kw-scroll-left, .kw-scroll-right {
+         opacity: 1;
+      }
+
+      @include device(sm, min) {
+         .kw-scroll-container.kw-gradient {
+            -webkit-mask-image: $webkit-full-gradient;
+         }
+      }
+   }
+
+
+   // Scroll arrows for desktop
+   .kw-scroll-left, .kw-scroll-right {
+      @include transition(all .3s);
+      height: 100%;
+      opacity: .15;
+      position: absolute;
+      top: 0;
+      width: 25px;
+      z-index: 2;
+
+      i {
+         cursor: pointer;
+         font-size: 40px;
+      }
+
+      @include device(sm, max) {
+         .ismobile & {
+            display: none;
+         }
+      }
+   }
+
+   .kw-scroll-left {
+      left: 12px;
+   }
+
+   .kw-scroll-right {
+      right: 12px;
+   }
+
+   // Gradient fade left
+   &.kw-gradient-left,
+   &.kw-gradient-left:hover {
+      .kw-scroll-left i {
+         //display: none;
+      }
+
+      .kw-gradient {
+         -webkit-mask-image: $webkit-right-gradient;
+
+         @include device($mobile) {
+            .ismobile & {
+               -webkit-mask-image: none;
+               mask-image: none;
+            }
+         }
+      }
+   }
+
+   // Gradient fade right
+   &.kw-gradient-right,
+   &.kw-gradient-right:hover {
+      .kw-scroll-right i {
+         //display: none;
+      }
+
+      .kw-gradient {
+         -webkit-mask-image: $webkit-left-gradient;
+
+         @include device($mobile) {
+            .ismobile & {
+               -webkit-mask-image: none;
+               mask-image: none;
+               mask: none;
+            }
+         }
+      }
+   }
+
+   // No gradient when applicable
+   &.kw-no-gradient,
+   &.kw-no-gradient:hover {
+      .kw-scroll-left i,
+      .kw-scroll-right i {
+         display: none;
+      }
+
+      .kw-gradient {
+         -webkit-mask-image: none;
+         mask-image: none;
+         mask: none;
+      }
+   }
+
+   // Scroller item
+   .kw-page-link {
+      $item-width: 100% / 5.6;
+      width: $item-width;
+      @include flex(0 0 $item-width);
+   }
+
+   // Scroller logo
+   .kw-scroller-logo {
+      @include flex(1 0 90px);
+      max-width: 90px;
+      min-width: 90px;
+      width: 90px;
+
+      .kw-custom-logo {
+         height: 90px;
+         width: 90px;
+      }
+   }
+
+   @include device($mobile) {
+      padding: 0;
+
+      .ismobile & {
+         .kw-scroll-inner {
+            @include transform(translate3d(0, 0, 0) !important);
+            overflow-x: scroll;
+            overflow-y: hidden;
+
+            // adding the class later because Safari
+            &.kw-elastic-scroll {
+               -webkit-overflow-scrolling: touch;
+            }
+         }
+      }
+   }
+}
+
+
