@@ -8,6 +8,7 @@
          title: 'Group winner',
          tagline: null,
          criterionId: 1001615382,
+         dataUrl: '//kambi-cdn.globalmouth.com/tournamentdata/',
          tournamentName: 'wcq',
          widgetTrackingName: 'gm-group-winner',
          pollInterval: 30000
@@ -22,6 +23,8 @@
          CoreLibrary.setWidgetTrackingName(this.scope.args.widgetTrackingName);
          this.scope.mpe = 12;
          this.handleCustomCss();
+         this.scope.ismobile = this.is_mobile();
+         this.handleIntervals('intervals');
 
          this.scope.title = null;
          this.scope.tagline = null;
@@ -293,6 +296,41 @@
          return ret;
       },
 
+      /**
+       * Checks if there is an object containing dates to decide whether widget is online or not
+       * @param interval
+       */
+      handleIntervals ( interval ) {
+         var onlineDate = {},
+            intervalObj = this.scope.args.hasOwnProperty(interval) ? this.scope.args[interval] : null,
+            date_now = new Date();
+
+         if ( intervalObj && typeof intervalObj === 'object' && Object.keys(intervalObj).length ) {
+            var i = 0, arrLength = Object.keys(intervalObj).length;
+            for ( ; i < arrLength; ++i ) {
+               var key = Object.keys(intervalObj)[i],
+                  value = intervalObj[key];
+
+               var start = new Date(key),
+                  end = new Date(value);
+
+               if ( date_now > start && date_now < end ) {
+                  onlineDate = {
+                     online: start
+                  };
+               }
+            }
+            this.scope.online = onlineDate.hasOwnProperty('online');
+         } else {
+            this.scope.online = true;
+         }
+
+         console.log(this.scope.args.widgetTrackingName + ' online:', this.scope.online);
+         if ( !this.scope.online ) {
+            this.handleError('widget, offline');
+         }
+      },
+
       handleCustomCss () {
          this.dataUrl = ( this.scope.args.dataUrl ? this.scope.args.dataUrl + '{tournament}/css/{customer}/' : '' +
             '//kambi-cdn.globalmouth.com/tournamentdata/{tournament}/css/{customer}/' ) + 'style.css';
@@ -310,6 +348,25 @@
                this.scope.customCss = 'custom/style.local.css';
                console.debug('Error fetching css');
             });
+      },
+
+      /**
+       * Removes the widget
+       * @param prm
+       */
+      handleError ( prm ) {
+         console.warn('Cannot load ', prm, ', removing ' + this.scope.args.widgetTrackingName);
+         CoreLibrary.widgetModule.removeWidget();
+      },
+
+      /**
+       * Check parent element width and return true if is under certain mobile value
+       * @returns {boolean}
+       */
+      is_mobile () {
+         var testBrowser = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+         this.mainElement = document.getElementById('group-winner');
+         return this.mainElement.offsetWidth <= 768 && ('ontouchstart' in window) && testBrowser;
       }
 
    });

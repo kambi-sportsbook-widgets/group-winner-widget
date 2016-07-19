@@ -30,7 +30,6 @@
          this.scrollStart = 0;
          this.start = true;
          this.scrollerContainer = document.getElementById('pagination');
-         console.log(this.scrollerContainer);
 
          /*
           creates a new array with name _scopeKey
@@ -137,7 +136,6 @@
 
       doScroll ( dir, index ) {
          this.getScroller();
-
          this.handleClass();
 
          if ( dir === 'left' ) {
@@ -154,12 +152,18 @@
 
          if ( this.scrollStart >= 0 ) {
             this.scrollStart = 0;
-            this.handleClass(dir, true);
          }
          if ( (this.scrollStart * -1) >= (this.scrollerWidth - this.scrollerParentWidth) ) {
             this.scrollStart = (this.scrollerWidth - this.scrollerParentWidth) * -1;
-            this.handleClass(dir, true);
          }
+         if ( index >= 0 ) {
+            if ( index === 0 ) {
+               dir = 'left';
+            } else if ( index === this.getNumberOfPages() - 1 ) {
+               dir = 'right';
+            }
+         }
+         this.handleClass(dir, true);
          this.doTranslate();
       },
 
