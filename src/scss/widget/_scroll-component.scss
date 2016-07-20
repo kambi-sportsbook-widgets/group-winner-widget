@@ -10,7 +10,7 @@ $scroll-component-height: 48px;
       position: relative;
       width: 100%;
       @include transition(all .3s);
-      margin: 0 50px;
+      margin: 0 40px;
 
       &.kw-gradient {
          -webkit-mask-image: $webkit-full-gradient;
@@ -50,7 +50,7 @@ $scroll-component-height: 48px;
    .kw-scroll-left, .kw-scroll-right {
       @include transition(all .3s);
       height: 100%;
-      opacity: .15;
+      opacity: .3;
       position: absolute;
       top: 0;
       width: 25px;
@@ -58,7 +58,7 @@ $scroll-component-height: 48px;
 
       i {
          cursor: pointer;
-         font-size: 40px;
+         font-size: 30px;
       }
 
       @include device(sm, max) {
@@ -79,8 +79,16 @@ $scroll-component-height: 48px;
    // Gradient fade left
    &.kw-gradient-left,
    &.kw-gradient-left:hover {
-      .kw-scroll-left i {
-         //display: none;
+      .kw-scroll-left {
+         opacity: .1;
+
+         &:hover {
+            opacity: .1;
+
+            i {
+               cursor: default;
+            }
+         }
       }
 
       .kw-gradient {
@@ -98,8 +106,16 @@ $scroll-component-height: 48px;
    // Gradient fade right
    &.kw-gradient-right,
    &.kw-gradient-right:hover {
-      .kw-scroll-right i {
-         //display: none;
+      .kw-scroll-right {
+         opacity: .1;
+
+         &:hover {
+            opacity: .1;
+
+            i {
+               cursor: default;
+            }
+         }
       }
 
       .kw-gradient {

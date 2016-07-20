@@ -83,7 +83,7 @@
       },
 
       setCurrentPageOnCLick ( pageNumber ) {
-         this.doScroll(null, pageNumber);
+         // this.doScroll(null, pageNumber);
          this.setCurrentPage(pageNumber);
       },
 
@@ -139,31 +139,33 @@
          this.handleClass();
 
          if ( dir === 'left' ) {
-            this.scrollStart += this.itemWidth;
+            this.scrollStart += this.itemWidth * 2;
          } else if ( index >= 0 ) {
-            if ( index < this.getCurrentPage() + 1 ) {
-               this.scrollStart = index * -1 * 0.5 * this.itemWidth;
-            } else {
-               this.scrollStart = index * -1 * this.itemWidth;
-            }
+            // if ( index < this.getCurrentPage() + 1 ) {
+            //    this.scrollStart = index * -1 * 0.5 * this.itemWidth;
+            // } else {
+            //    this.scrollStart = index * -1 * this.itemWidth;
+            // }
          } else {
-            this.scrollStart -= this.itemWidth;
+            this.scrollStart -= this.itemWidth * 2;
          }
 
          if ( this.scrollStart >= 0 ) {
             this.scrollStart = 0;
+            this.handleClass(dir, true);
          }
          if ( (this.scrollStart * -1) >= (this.scrollerWidth - this.scrollerParentWidth) ) {
             this.scrollStart = (this.scrollerWidth - this.scrollerParentWidth) * -1;
+            this.handleClass(dir, true);
          }
-         if ( index >= 0 ) {
-            if ( index === 0 ) {
-               dir = 'left';
-            } else if ( index === this.getNumberOfPages() - 1 ) {
-               dir = 'right';
-            }
-         }
-         this.handleClass(dir, true);
+         // if ( index >= 0 ) {
+         //    if ( index === 0 ) {
+         //       dir = 'left';
+         //    } else if ( index === this.getNumberOfPages() - 1 ) {
+         //       dir = 'right';
+         //    }
+         // }
+
          this.doTranslate();
       },
 
@@ -172,10 +174,11 @@
        * @returns {*|number}
        */
       nextPage () {
-         if ( this.getCurrentPage() < this.getNumberOfPages() - 1 ) {
-            this.setCurrentPage(this.getCurrentPage() + 1);
-            this.doScroll('right');
-         }
+         this.doScroll('right');
+         // if ( this.getCurrentPage() < this.getNumberOfPages() - 1 ) {
+         //    this.setCurrentPage(this.getCurrentPage() + 1);
+         //    this.doScroll('right');
+         // }
          return this.getCurrentPage();
       },
 
@@ -184,10 +187,11 @@
        * @returns {*|number}
        */
       previousPage () {
-         if ( this.getCurrentPage() > 0 ) {
-            this.setCurrentPage(this.getCurrentPage() - 1);
-            this.doScroll('left');
-         }
+         this.doScroll('left');
+         // if ( this.getCurrentPage() > 0 ) {
+         //    this.setCurrentPage(this.getCurrentPage() - 1);
+         //    this.doScroll('left');
+         // }
          return this.getCurrentPage();
       },
 
