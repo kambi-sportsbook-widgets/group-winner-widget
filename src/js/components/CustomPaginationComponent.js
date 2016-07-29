@@ -83,7 +83,7 @@
       },
 
       setCurrentPageOnCLick ( pageNumber ) {
-         // this.doScroll(null, pageNumber);
+         this.doScroll(null, pageNumber);
          this.setCurrentPage(pageNumber);
       },
 
@@ -141,11 +141,12 @@
          if ( dir === 'left' ) {
             this.scrollStart += this.itemWidth * 2;
          } else if ( index >= 0 ) {
-            // if ( index < this.getCurrentPage() + 1 ) {
-            //    this.scrollStart = index * -1 * 0.5 * this.itemWidth;
-            // } else {
-            //    this.scrollStart = index * -1 * this.itemWidth;
-            // }
+            if ( index < this.getCurrentPage() + 1 ) {
+               dir = 'left';
+            } else {
+               dir = 'right';
+            }
+            this.scrollStart = index * -1 * this.itemWidth + (this.scrollerParentWidth / 2 - this.itemWidth / 2);
          } else {
             this.scrollStart -= this.itemWidth * 2;
          }
@@ -158,13 +159,6 @@
             this.scrollStart = (this.scrollerWidth - this.scrollerParentWidth) * -1;
             this.handleClass(dir, true);
          }
-         // if ( index >= 0 ) {
-         //    if ( index === 0 ) {
-         //       dir = 'left';
-         //    } else if ( index === this.getNumberOfPages() - 1 ) {
-         //       dir = 'right';
-         //    }
-         // }
 
          this.doTranslate();
       },
