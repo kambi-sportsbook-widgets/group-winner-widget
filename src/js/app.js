@@ -32,6 +32,7 @@
          this.scope.baseHeight = 132;
          this.scope.rowHeight = 44;
          this.scope.maxOutcomeCount = 0;
+         this.scope.navigateToEvent = this.navigateToEvent.bind(this);
 
          // Get the betoffers
          var betofferPromise = new Promise(( resolve, reject ) => {
@@ -294,6 +295,20 @@
          });
 
          return ret;
+      },
+
+      /**
+       *
+       * @param e
+       * @param data
+       */
+      navigateToEvent ( e, data ) {
+         console.log(data, data.event.event.id);
+         if ( data && data.event && data.event.event.openForLiveBetting != null && data.event.event.openForLiveBetting === true ) {
+            CoreLibrary.widgetModule.navigateToLiveEvent(data.event.event.id);
+         } else {
+            CoreLibrary.widgetModule.navigateToEvent(data.event.event.id);
+         }
       },
 
       /**

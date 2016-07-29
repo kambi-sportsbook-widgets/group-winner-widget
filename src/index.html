@@ -59,7 +59,7 @@
 
       <section class="l-flexbox l-vertical l-flex-1 l-pr-12 l-pl-16" id="groups">
          <!--Groups-->
-         <div rv-each-event="_events">
+         <div class="kw-link" rv-each-event="_events" rv-on-click="navigateToEvent">
 
             <div class="l-flexbox l-vertical l-flex-1">
 
@@ -68,7 +68,6 @@
                     rv-anim-disable="event.animationDisable"
                     rv-anim-stagger="index"
                     rv-each-outcome="event.betOffers | array_at 0 'outcomes'">
-
 
                   <div class="kw-team l-flexbox l-align-center l-flex-4">
                      <span class="text-truncate">{outcome.label}</span>
