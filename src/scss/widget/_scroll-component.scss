@@ -80,15 +80,7 @@ $scroll-component-height: 48px;
    &.kw-gradient-left,
    &.kw-gradient-left:hover {
       .kw-scroll-left {
-         opacity: .1;
-
-         &:hover {
-            opacity: .1;
-
-            i {
-               cursor: default;
-            }
-         }
+         visibility: hidden;
       }
 
       .kw-gradient {
@@ -107,15 +99,7 @@ $scroll-component-height: 48px;
    &.kw-gradient-right,
    &.kw-gradient-right:hover {
       .kw-scroll-right {
-         opacity: .1;
-
-         &:hover {
-            opacity: .1;
-
-            i {
-               cursor: default;
-            }
-         }
+         visibility: hidden;
       }
 
       .kw-gradient {
@@ -183,5 +167,3 @@ $scroll-component-height: 48px;
       }
    }
 }
-
-
