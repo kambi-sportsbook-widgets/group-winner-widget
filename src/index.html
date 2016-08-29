@@ -41,7 +41,20 @@
    <!--Header-->
    <header class="KambiWidget-card-border-color KambiWidget-font kw-header l-flexbox l-align-center l-pl-16">
 
-      <div class="kw-header-logo kw-custom-logo-small"></div>
+      <!--<div class="kw-header-logo">-->
+         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="kw-header-logo">
+            <defs>
+               <mask id="svgmask2">
+                  <image width="100%" height="100%" xlink:href="img/football.svg"/>
+               </mask>
+               <!--<filter id="myFilter">-->
+               <!--<feImage id="blendRect" xlink:href="#" result="slide2" x="0" y="0" width="100%" preserveAspectRatio="xMidYMid slice"/>-->
+               <!--<feBlend in2="SourceGraphic" in="slide2" mode="multiply" />-->
+               <!--</filter>-->
+            </defs>
+            <rect mask="url(#svgmask2)" id="blendRect" x="0" y="0" width="100%" height="100%"/>
+         </svg>
+      <!--</div>-->
       <div class="kw-header-text-container">
          <div class="kw-header-title text-truncate">{title}</div>
          <div class="kw-header-tagline text-truncate">{tagline}</div>

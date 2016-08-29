@@ -8,9 +8,9 @@
          title: 'Group winner',
          tagline: null,
          criterionId: 1001615382,
-         dataUrl: '//kambi-cdn.globalmouth.com/tournamentdata/',
-         tournamentName: 'wcq',
-         widgetTrackingName: 'gm-group-winner',
+         // customCssUrl: '//kambi-cdn.globalmouth.com/customcss/group-winner-widget/',
+         customCssUrl: '//kambi-widgets.dev/customerdata/customcss/group-winner-widget/',
+         widgetTrackingName: 'gm-group-winner-widget',
          pollInterval: 30000
       },
 
@@ -350,9 +350,9 @@
       },
 
       handleCustomCss () {
-         this.dataUrl = ( this.scope.args.dataUrl ? this.scope.args.dataUrl + '{tournament}/css/{customer}/' : '' +
-            '//kambi-cdn.globalmouth.com/tournamentdata/{tournament}/css/{customer}/' ) + 'style.css';
-         this.scope.customCssUrl = this.dataUrl.replace(/\{customer}/, CoreLibrary.config.customer).replace(/\{tournament}/, this.scope.args.tournamentName);
+         this.customCssUrl = ( this.scope.args.customCssUrl ? this.scope.args.customCssUrl + '{customer}/' : '' +
+            '//kambi-cdn.globalmouth.com/tournamentdata/{customer}/' ) + 'style.css';
+         this.scope.customCssUrl = this.customCssUrl.replace(/\{customer}/, CoreLibrary.config.customer);
 
          fetch(this.scope.customCssUrl)
             .then(( response ) => {
