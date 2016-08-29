@@ -152,8 +152,7 @@
                      if ( o.label === nextMatchHomeName ) {
                         tabToFocus = index;
                      }
-                     o.flagPath = this.scope.args.dataUrl +
-                        this.scope.args.tournamentName + '/flags/' +
+                     o.flagPath = this.scope.args.customCssUrl + 'flags/' +
                         o.participantId + '.svg';
                   });
                });
