@@ -159,7 +159,11 @@
 
                this.pagination = new CoreLibrary.CustomPaginationComponent('#pagination', this.scope, 'events', 1, filteredEvents.groups.length);
 
-               this.pagination.setCurrentPage(tabToFocus);
+               // Delaying the transition until we get elements rendered
+               setTimeout(() => {
+                  this.pagination.setCurrentPageOnCLick(tabToFocus);
+               }, 200);
+
                CoreLibrary.widgetModule.setWidgetHeight(this.scope.baseHeight + ( this.scope.rowHeight * this.scope.maxOutcomeCount));
             })
             .catch(( err ) => {

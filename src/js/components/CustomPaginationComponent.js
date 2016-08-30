@@ -6,8 +6,8 @@
     */
    CoreLibrary.CustomPaginationComponent = CoreLibrary.Component.subclass({
       htmlTemplate: '' +
-      '<div class="kw-scroll-left l-flexbox l-align-center" rv-on-click="previousPage"><i class="icon-angle-left"></i></div>' +
-      '<div class="kw-scroll-container kw-gradient">' +
+      '<div rv-show="enableLeftNav" class="kw-scroll-left l-flexbox l-align-center" rv-on-click="previousPage"><i class="icon-angle-left"></i></div>' +
+      '<div class="kw-scroll-container">' +
       '<div id="kw-scroll-component" class="kw-pagination kw-scroll-inner l-flexbox l-pack-justify l-flex-1 l-align-stretch">' +
       '<span rv-each-page="pages" rv-on-click="page.clickEvent" rv-class-kw-active-page="page.selected"' +
       'class="KambiWidget-card-border-color kw-page-link l-flexbox l-pack-center l-align-center l-flex-1">' +
@@ -16,7 +16,7 @@
       '</span>' +
       '</div>' +
       '</div>' +
-      '<div class="kw-scroll-right l-flexbox l-align-center l-pack-end" rv-on-click="nextPage"><i class="icon-angle-right"></i></div>',
+      '<div rv-show="enableRightNav" class="kw-scroll-right l-flexbox l-align-center l-pack-end" rv-on-click="nextPage"><i class="icon-angle-right"></i></div>',
       constructor ( htmlElement, mainComponentScope, scopeKey, pageSize, maxVisiblePages ) {
          CoreLibrary.Component.apply(this, [{
             rootElement: htmlElement
@@ -30,6 +30,8 @@
          this.scrollStart = 0;
          this.start = true;
          this.scrollerContainer = document.getElementById('pagination');
+         this.scope.enableLeftNav = false;
+         this.scope.enableRightNav = false;
 
          /*
           creates a new array with name _scopeKey
@@ -52,7 +54,6 @@
          this.scope.previousPage = this.previousPage.bind(this);
 
          this.adaptArray();
-         this.handleClass('left', true);
       },
 
       clearArray: function () {
@@ -116,22 +117,25 @@
       },
 
       handleClass ( dir, end ) {
-         this.scrollerContainer.classList.remove('kw-gradient-right');
-         this.scrollerContainer.classList.remove('kw-gradient-left');
+         this.scope.enableLeftNav = this.scope.enableRightNav = true;
          if ( dir === 'right' && end ) {
-            this.scrollerContainer.classList.add('kw-gradient-right');
+            this.scope.enableLeftNav = true;
+            this.scope.enableRightNav = !this.scope.enableLeftNav;
          } else if ( dir === 'left' && end ) {
-            this.scrollerContainer.classList.add('kw-gradient-left');
+            this.scope.enableLeftNav = false;
+            this.scope.enableRightNav = !this.scope.enableLeftNav;
          }
       },
 
       getScroller () {
          this.scroller = document.getElementById('kw-scroll-component');
-         this.scrollerParent = this.scroller.parentElement;
-         this.scrollerParentWidth = this.scrollerParent.offsetWidth;
-         this.items = this.scroller.querySelectorAll('.kw-page-link');
-         this.itemWidth = this.items.length ? this.items[0].offsetWidth : 0;
-         this.scrollerWidth = this.itemWidth * this.items.length;
+         if ( this.scroller ) {
+            this.scrollerParent = this.scroller.parentElement;
+            this.scrollerParentWidth = this.scrollerParent.offsetWidth;
+            this.items = this.scroller.querySelectorAll('.kw-page-link');
+            this.itemWidth = this.items.length ? this.items[0].offsetWidth : 0;
+            this.scrollerWidth = this.itemWidth * this.items.length;
+         }
       },
 
       doScroll ( dir, index ) {
@@ -141,21 +145,19 @@
          if ( dir === 'left' ) {
             this.scrollStart += this.itemWidth * 2;
          } else if ( index >= 0 ) {
-            if ( index < this.getCurrentPage() + 1 ) {
-               dir = 'left';
-            } else {
-               dir = 'right';
-            }
             this.scrollStart = index * -1 * this.itemWidth + (this.scrollerParentWidth / 2 - this.itemWidth / 2);
          } else {
+
             this.scrollStart -= this.itemWidth * 2;
          }
 
          if ( this.scrollStart >= 0 ) {
+            dir = 'left';
             this.scrollStart = 0;
             this.handleClass(dir, true);
          }
          if ( (this.scrollStart * -1) >= (this.scrollerWidth - this.scrollerParentWidth) ) {
+            dir = 'right';
             this.scrollStart = (this.scrollerWidth - this.scrollerParentWidth) * -1;
             this.handleClass(dir, true);
          }
@@ -169,10 +171,6 @@
        */
       nextPage () {
          this.doScroll('right');
-         // if ( this.getCurrentPage() < this.getNumberOfPages() - 1 ) {
-         //    this.setCurrentPage(this.getCurrentPage() + 1);
-         //    this.doScroll('right');
-         // }
          return this.getCurrentPage();
       },
 
@@ -182,10 +180,6 @@
        */
       previousPage () {
          this.doScroll('left');
-         // if ( this.getCurrentPage() > 0 ) {
-         //    this.setCurrentPage(this.getCurrentPage() - 1);
-         //    this.doScroll('left');
-         // }
          return this.getCurrentPage();
       },
 

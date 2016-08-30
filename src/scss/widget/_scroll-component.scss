@@ -10,11 +10,7 @@ $scroll-component-height: 48px;
       position: relative;
       width: 100%;
       @include transition(all .3s);
-      margin: 0 40px;
-
-      &.kw-gradient {
-         -webkit-mask-image: $webkit-full-gradient;
-      }
+      margin: 0 12px;
 
       > div {
          @include transition(all .3s);
@@ -34,14 +30,8 @@ $scroll-component-height: 48px;
    }
 
    &:hover {
-      .kw-scroll-left, .kw-scroll-right {
+      .kw-scroll-left i, .kw-scroll-right i {
          opacity: 1;
-      }
-
-      @include device(sm, min) {
-         .kw-scroll-container.kw-gradient {
-            -webkit-mask-image: $webkit-full-gradient;
-         }
       }
    }
 
@@ -50,13 +40,15 @@ $scroll-component-height: 48px;
    .kw-scroll-left, .kw-scroll-right {
       @include transition(all .3s);
       height: 100%;
-      opacity: .3;
+      
       position: absolute;
       top: 0;
-      width: 25px;
+      width: 45px;
       z-index: 2;
 
       i {
+         @include transition(all .3s);
+         opacity: .3;
          cursor: pointer;
          font-size: 30px;
       }
@@ -70,64 +62,12 @@ $scroll-component-height: 48px;
 
    .kw-scroll-left {
       left: 12px;
+      background: linear-gradient(to right, rgba(255, 255, 255, 1) 10%, rgba(238, 238, 238, 0));
    }
 
    .kw-scroll-right {
       right: 12px;
-   }
-
-   // Gradient fade left
-   &.kw-gradient-left,
-   &.kw-gradient-left:hover {
-      .kw-scroll-left {
-         visibility: hidden;
-      }
-
-      .kw-gradient {
-         -webkit-mask-image: $webkit-right-gradient;
-
-         @include device($mobile) {
-            .ismobile & {
-               -webkit-mask-image: none;
-               mask-image: none;
-            }
-         }
-      }
-   }
-
-   // Gradient fade right
-   &.kw-gradient-right,
-   &.kw-gradient-right:hover {
-      .kw-scroll-right {
-         visibility: hidden;
-      }
-
-      .kw-gradient {
-         -webkit-mask-image: $webkit-left-gradient;
-
-         @include device($mobile) {
-            .ismobile & {
-               -webkit-mask-image: none;
-               mask-image: none;
-               mask: none;
-            }
-         }
-      }
-   }
-
-   // No gradient when applicable
-   &.kw-no-gradient,
-   &.kw-no-gradient:hover {
-      .kw-scroll-left i,
-      .kw-scroll-right i {
-         display: none;
-      }
-
-      .kw-gradient {
-         -webkit-mask-image: none;
-         mask-image: none;
-         mask: none;
-      }
+      background: linear-gradient(to left, rgba(255, 255, 255, 1) 10%, rgba(238, 238, 238, 0));
    }
 
    // Scroller item
