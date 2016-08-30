@@ -8,8 +8,9 @@
          title: 'Group winner',
          tagline: null,
          criterionId: 1001615382,
-         // customCssUrl: '//kambi-cdn.globalmouth.com/customcss/group-winner-widget/',
-         customCssUrl: '//kambi-widgets.dev/customerdata/customcss/group-winner-widget/',
+         customCssUrl: 'https://d1fqgomuxh4f5p.cloudfront.net/customcss/group-winner-widget/{customer}/style.css',
+         customCssUrlFallback: 'https://d1fqgomuxh4f5p.cloudfront.net/customcss/group-winner-widget/kambi/style.css',
+         flagUrl: 'https://d1fqgomuxh4f5p.cloudfront.net/customcss/group-winner-widget/flags/',
          widgetTrackingName: 'gm-group-winner-widget',
          pollInterval: 30000
       },
@@ -22,7 +23,7 @@
       init () {
          CoreLibrary.setWidgetTrackingName(this.scope.args.widgetTrackingName);
          this.scope.mpe = 12;
-         this.handleCustomCss();
+
          this.scope.ismobile = this.is_mobile();
          this.handleIntervals('intervals');
 
@@ -152,8 +153,7 @@
                      if ( o.label === nextMatchHomeName ) {
                         tabToFocus = index;
                      }
-                     o.flagPath = this.scope.args.customCssUrl + 'flags/' +
-                        o.participantId + '.svg';
+                     o.flagPath = '' + this.scope.args.flagUrl + o.participantId + '.svg';
                   });
                });
 
@@ -346,25 +346,6 @@
          if ( !this.scope.online ) {
             this.handleError('widget, offline');
          }
-      },
-
-      handleCustomCss () {
-         this.customCssUrl = ( this.scope.args.customCssUrl ? this.scope.args.customCssUrl + '{customer}/' : '' +
-            '//kambi-cdn.globalmouth.com/tournamentdata/{customer}/' ) + 'style.css';
-         this.scope.customCssUrl = this.customCssUrl.replace(/\{customer}/, CoreLibrary.config.customer);
-
-         fetch(this.scope.customCssUrl)
-            .then(( response ) => {
-               if ( response.status >= 200 && response.status < 300 ) {
-                  this.scope.customCss = this.scope.customCssUrl;
-               } else {
-                  this.scope.customCss = 'custom/style.local.css';
-               }
-            })
-            .catch(( error ) => {
-               this.scope.customCss = 'custom/style.local.css';
-               console.debug('Error fetching css');
-            });
       },
 
       /**
