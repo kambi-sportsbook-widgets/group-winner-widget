@@ -64,24 +64,27 @@
          <div id="pagination" class="kw-pagination KambiWidget-font l-flexbox l-expander"></div>
       </div>
 
-      <section class="l-flexbox l-vertical l-flex-1 l-pr-16 l-pl-16" id="groups">
+      <section class="l-flexbox l-vertical l-flex-1 l-pr-16 l-pl-16 l-pt-12" id="groups">
          <!--Groups-->
-         <div class="kw-link" rv-each-event="_events" rv-on-click="navigateToEvent"
+         <div class="kw-link" rv-each-event="_events"
               rv-anim-disable="event.animationDisable"
               rv-anim-fade-in="index">
 
             <div class="l-flexbox l-vertical l-flex-1">
 
                <!--Teams-->
-               <div class="KambiWidget-font kw-teams l-flexbox l-align-center"
+               <div class="KambiWidget-font kw-teams l-flexbox"
                     rv-each-outcome="event.betOffers | array_at 0 'outcomes'">
-                  <img
-                     class='l-mr-12'
-                     rv-src='outcome.flagPath'
-                     width='24'
-                     height='24'/>
-                  <div class="kw-team l-flexbox l-align-center l-flex-4">
-                     <span class="text-truncate">{outcome.label}</span>
+
+                  <div class="l-flexbox l-align-center l-flex-1" rv-on-click="navigateToEvent">
+                     <img
+                        class='l-mr-12'
+                        rv-src='outcome.flagPath'
+                        width='24'
+                        height='24'/>
+                     <div class="kw-team l-flexbox l-align-center l-flex-4">
+                        <span class="text-truncate">{outcome.label}</span>
+                     </div>
                   </div>
 
                   <div class="l-flexbox l-align-center">

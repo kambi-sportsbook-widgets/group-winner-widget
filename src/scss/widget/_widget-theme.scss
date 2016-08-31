@@ -62,12 +62,13 @@ h4 {
 // Fixed height and styles for each row
 .kw-teams {
    height: 44px;
-   &:first-child {
-      margin-top: 10px;
-   }
-   &:last-child {
-      margin-bottom: 10px;
-   }
+   
+   //&:first-child {
+   //   margin-top: 10px;
+   //}
+   //&:last-child {
+   //   margin-bottom: 10px;
+   //}
 }
 
 .kw-team {
