@@ -41,7 +41,7 @@
    <!--Header-->
    <header class="KambiWidget-card-border-color KambiWidget-font kw-header l-flexbox l-align-center l-pl-16">
 
-      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="kw-header-logo">
+      <svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" class="kw-header-logo">
          <defs>
             <mask id="svgmask2">
                <image width="100%" height="100%" xlink:href="img/football.svg"/>
@@ -66,7 +66,9 @@
 
       <section class="l-flexbox l-vertical l-flex-1 l-pr-16 l-pl-16" id="groups">
          <!--Groups-->
-         <div class="kw-link" rv-each-event="_events" rv-on-click="navigateToEvent">
+         <div class="kw-link" rv-each-event="_events" rv-on-click="navigateToEvent"
+              rv-anim-disable="event.animationDisable"
+              rv-anim-fade-in="index">
 
             <div class="l-flexbox l-vertical l-flex-1">
 
@@ -74,10 +76,10 @@
                <div class="KambiWidget-font kw-teams l-flexbox l-align-center"
                     rv-each-outcome="event.betOffers | array_at 0 'outcomes'">
                   <img
-                        class='l-mr-12'
-                        rv-src='outcome.flagPath'
-                        width='24'
-                        height='24'/>
+                     class='l-mr-12'
+                     rv-src='outcome.flagPath'
+                     width='24'
+                     height='24'/>
                   <div class="kw-team l-flexbox l-align-center l-flex-4">
                      <span class="text-truncate">{outcome.label}</span>
                   </div>

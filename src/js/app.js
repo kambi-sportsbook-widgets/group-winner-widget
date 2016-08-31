@@ -394,4 +394,17 @@
       rootElement: 'html'
    });
 
+   rivets.binders['anim-fade-in'] = ( el, index ) => {
+      if ( index < 0 ) {
+         return false;
+      }
+      var animationDisable = el.getAttribute('data-anim-disable');
+      if ( animationDisable === 'true' ) {
+         return false;
+      } else {
+         el.classList.remove('anim-stagger');
+         el.classList.add('anim-stagger');
+      }
+   };
+
 })();
