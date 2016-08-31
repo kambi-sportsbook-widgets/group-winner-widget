@@ -6,7 +6,7 @@ $scroll-component-height: 48px;
    
    .kw-scroll-container {
       height: $scroll-component-height;
-      margin: 0 12px;
+      margin: 0 16px;
       overflow: hidden;
       position: relative;
       @include transition(all .3s);
@@ -38,14 +38,16 @@ $scroll-component-height: 48px;
       @include transition(all .3s);
       cursor: pointer;
       height: 100%;
+      padding-bottom: 3px;
       position: absolute;
       top: 0;
-      width: 45px;
+      width: 35px;
       z-index: 2;
       
       i {
          @include transition(all .3s);
-         font-size: 30px;
+         font-size: 20px;
+         font-weight: bold;
          opacity: .3;
       }
       
@@ -58,12 +60,12 @@ $scroll-component-height: 48px;
    
    .kw-scroll-left {
       background: linear-gradient(to right, rgba(255, 255, 255, 1) 10%, rgba(238, 238, 238, 0));
-      left: 12px;
+      left: 16px;
    }
    
    .kw-scroll-right {
       background: linear-gradient(to left, rgba(255, 255, 255, 1) 10%, rgba(238, 238, 238, 0));
-      right: 12px;
+      right: 16px;
    }
    
    // Scroller item
