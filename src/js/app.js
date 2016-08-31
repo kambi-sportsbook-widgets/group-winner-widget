@@ -159,7 +159,10 @@
                      if ( a.event.start > b.event.start ) {
                         return 1;
                      }
-                     return -1;
+                     if (a.event.start < b.event.start ) {
+                        return -1;
+                     }
+                     return 0;
                   });
                var nextMatchHomeName = matches[0].event.homeName;
                var tabToFocus = 0;

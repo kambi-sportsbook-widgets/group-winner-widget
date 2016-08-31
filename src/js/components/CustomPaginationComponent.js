@@ -86,6 +86,7 @@
       setCurrentPageOnCLick ( pageNumber ) {
          this.doScroll(null, pageNumber);
          this.setCurrentPage(pageNumber);
+         this.scroller.scrollLeft = ( this.scrollerWidth * ((pageNumber + 1) / this.items.length) ) - this.itemWidth;
       },
 
       /**
