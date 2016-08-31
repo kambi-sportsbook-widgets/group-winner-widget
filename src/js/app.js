@@ -25,7 +25,6 @@
          this.scope.mpe = 12;
 
          this.scope.ismobile = this.is_mobile();
-         this.handleIntervals('intervals');
 
          this.scope.title = null;
          this.scope.tagline = null;
@@ -60,8 +59,26 @@
                });
          });
 
+         // Get the contents of the 'Popular' list
+         var highlightPromise = new Promise(( resolve, reject ) => {
+            CoreLibrary.offeringModule.getHighlight()
+               .then(( response ) => {
+                  response.groups.forEach(( item ) => {
+                     // Check if the configured filter exists in the highligh resource, if not reject the promise
+                     if ( item.pathTermId === '/' + this.scope.args.filter ) {
+                        resolve();
+                     }
+                  });
+                  reject('Filter: ' + this.scope.args.filter + ' does not exist in the highlight resource');
+               })
+               .catch(( err ) => {
+                  console.debug(err);
+                  reject(err);
+               });
+         });
+
          // When both data fetching promises are resolved, we can create the modules and send them the data
-         Promise.all([betofferPromise, matchesPromise])
+         Promise.all([betofferPromise, matchesPromise, highlightPromise])
             .then(( promiseData ) => {
                var filteredEvents = this.filterOutBetOffers(promiseData[0].events);
 
