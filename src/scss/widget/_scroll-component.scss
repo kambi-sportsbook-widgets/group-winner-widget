@@ -71,8 +71,9 @@ $scroll-component-height: 48px;
    // Scroller item
    .kw-page-link {
       $item-width: 100% / 5.6;
+      min-width: $item-width;
       width: $item-width;
-      @include flex(0 0 $item-width);
+      @include flex(1 0 $item-width);
    }
    
    // Scroller logo

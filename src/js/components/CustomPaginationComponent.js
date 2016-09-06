@@ -86,7 +86,6 @@
       setCurrentPageOnCLick ( pageNumber ) {
          this.doScroll(null, pageNumber);
          this.setCurrentPage(pageNumber);
-         this.scroller.scrollLeft = ( this.scrollerWidth * ((pageNumber + 1) / this.items.length) ) - this.itemWidth;
       },
 
       /**
@@ -118,11 +117,11 @@
       },
 
       handleClass ( dir, end ) {
-         this.scope.enableLeftNav = this.scope.enableRightNav = true;
-         if ( dir === 'right' && end ) {
+         this.scope.enableLeftNav = this.scope.enableRightNav = this.enabled;
+         if ( this.enabled && dir === 'right' && end ) {
             this.scope.enableLeftNav = true;
             this.scope.enableRightNav = !this.scope.enableLeftNav;
-         } else if ( dir === 'left' && end ) {
+         } else if ( this.enabled && dir === 'left' && end ) {
             this.scope.enableLeftNav = false;
             this.scope.enableRightNav = !this.scope.enableLeftNav;
          }
@@ -136,31 +135,29 @@
             this.items = this.scroller.querySelectorAll('.kw-page-link');
             this.itemWidth = this.items.length ? this.items[0].offsetWidth : 0;
             this.scrollerWidth = this.itemWidth * this.items.length;
+            this.enabled = this.scrollerWidth > this.scrollerParentWidth;
          }
       },
 
       doScroll ( dir, index ) {
          this.getScroller();
          this.handleClass();
+         this.scroller.scrollLeft = ( this.scrollerWidth * ((index + 1) / this.items.length) ) - this.itemWidth;
 
          if ( dir === 'left' ) {
             this.scrollStart += this.itemWidth * 2;
          } else if ( index >= 0 ) {
             this.scrollStart = index * -1 * this.itemWidth + (this.scrollerParentWidth / 2 - this.itemWidth / 2);
          } else {
-
             this.scrollStart -= this.itemWidth * 2;
          }
 
          if ( this.scrollStart >= 0 ) {
-            dir = 'left';
             this.scrollStart = 0;
-            this.handleClass(dir, true);
-         }
-         if ( (this.scrollStart * -1) >= (this.scrollerWidth - this.scrollerParentWidth) ) {
-            dir = 'right';
+            this.handleClass('left', true);
+         } else if ( (this.scrollStart * -1) >= (this.scrollerWidth - this.scrollerParentWidth) ) {
             this.scrollStart = (this.scrollerWidth - this.scrollerParentWidth) * -1;
-            this.handleClass(dir, true);
+            this.handleClass('right', true);
          }
 
          this.doTranslate();
