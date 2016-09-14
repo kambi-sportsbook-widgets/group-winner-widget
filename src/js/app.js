@@ -4,7 +4,8 @@
    var GroupWinner = CoreLibrary.Component.subclass({
 
       defaultArgs: {
-         filter: 'football/world_cup_qualifying_-_europe',
+         filter: 'football/world_cup_qualifying_-_europe/all',
+         //filter: 'football/england/premier_league',
          title: 'Group winner',
          tagline: null,
          criterionId: 1001615382,
@@ -37,7 +38,7 @@
          // Get the betoffers
          var betofferPromise = new Promise(( resolve, reject ) => {
             CoreLibrary.offeringModule
-               .getEventsByFilter(this.scope.args.filter + '/all/all/competitions/')
+               .getEventsByFilter(this.scope.args.filter + '/all/competitions/')
                .then(( response ) => {
                   resolve(response);
                })
@@ -49,7 +50,7 @@
 
          var matchesPromise = new Promise(( resolve, reject ) => {
             CoreLibrary.offeringModule
-               .getEventsByFilter(this.scope.args.filter + '/all/all/matches/')
+               .getEventsByFilter(this.scope.args.filter + '/all/matches/')
                .then(( response ) => {
                   resolve(response);
                })
@@ -63,9 +64,16 @@
          var highlightPromise = new Promise(( resolve, reject ) => {
             CoreLibrary.offeringModule.getHighlight()
                .then(( response ) => {
+                  var pathTermId1 = '/' + this.scope.args.filter;
+                  var pathTermId2 = '/' + this.scope.args.filter;
+                  // if finishes with /all remove it
+                  // the pathTermId in the highlight can ommit the /all at the end
+                  if (pathTermId2.slice(-4) === '/all') {
+                     pathTermId2 = pathTermId2.slice(0, -4);
+                  }
                   response.groups.forEach(( item ) => {
                      // Check if the configured filter exists in the highligh resource, if not reject the promise
-                     if ( item.pathTermId === '/' + this.scope.args.filter ) {
+                     if ( item.pathTermId === pathTermId1 || item.pathTermId === pathTermId2 ) {
                         resolve();
                      }
                   });
