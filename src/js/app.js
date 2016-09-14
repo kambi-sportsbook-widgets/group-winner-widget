@@ -164,13 +164,16 @@
                      }
                      return 0;
                   });
-               var nextMatchHomeName = matches[0].event.homeName;
+               var nextMatchHomeName = null;
+               if (matches.length > 0) {
+                  nextMatchHomeName = matches[0].event.homeName;
+               }
                var tabToFocus = 0;
                this.scope.events.forEach(( e, index ) => {
                   e.betOffers[0].outcomes.forEach(( o ) => {
                      // we can't compare ids here, but this comparison works
                      // even across different locales
-                     if ( o.label === nextMatchHomeName ) {
+                     if ( nextMatchHomeName !== null && o.label === nextMatchHomeName ) {
                         tabToFocus = index;
                      }
                      o.flagPath = '' + this.scope.args.flagUrl + o.participantId + '.svg';
