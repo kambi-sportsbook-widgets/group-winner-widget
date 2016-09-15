@@ -6,14 +6,14 @@
       defaultArgs: {
          filter: 'football/world_cup_qualifying_-_europe/all',
          //filter: 'football/england/premier_league',
-         title: 'Group winner',
+         title: null,
          tagline: null,
          criterionId: 1001615382,
          customCssUrl: 'https://d1fqgomuxh4f5p.cloudfront.net/customcss/group-winner-widget/{customer}/style.css',
          customCssUrlFallback: 'https://d1fqgomuxh4f5p.cloudfront.net/customcss/group-winner-widget/kambi/style.css',
          flagUrl: 'https://d1fqgomuxh4f5p.cloudfront.net/customcss/group-winner-widget/flags/',
-         widgetTrackingName: 'gm-group-winner-widget',
-         pollInterval: 30000
+         pollInterval: 30000,
+         widgetTrackingName: 'gm-group-winner-widget'
       },
 
       constructor () {
@@ -300,11 +300,23 @@
                // Check if the criterion id is one we've mapped
                if ( mappings.hasOwnProperty(events[i].betOffers[0].criterion.id) ) {
                   // Set the tagline from the outcome criterion so we get it translated
-                  this.scope.tagline = ( this.scope.tagline == null || this.scope.tagline === this.scope.args.tagline ) ?
-                     events[i].betOffers[0].criterion.label : this.scope.args.tagline;
+                  if (this.scope.tagline == null) {
+                     if (this.scope.args.tagline != null) {
+                        this.scope.tagline = this.scope.args.tagline;
+                     } else {
+                        if (events[i].betoffers.length > 0) {
+                           this.scope.tagline = events[i].betOffers[0].criterion.label;
+                        }
+                     }
+                  }
                   // Set title as well
-                  this.scope.title = ( this.scope.title == null || this.scope.title === this.scope.args.title ) ?
-                     events[i].event.group : this.scope.args.title;
+                  if (this.scope.title == null) {
+                     if (this.scope.args.title != null) {
+                        this.scope.title = this.scope.args.title;
+                     } else {
+                        this.scope.title = events[i].event.group;
+                     }
+                  }
                   // Sort outcomes based on odds
                   events[i].betOffers[0].outcomes.sort(function ( a, b ) {
                      if ( a.odds < b.odds ) {
