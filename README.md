@@ -1,5 +1,7 @@
 # group-winner-widget
 
+![](https://github.com/kambi-sportsbook-widgets/group-winner-widget/blob/master/screenshot.png?raw=true)
+
 A widget that shows all groups inside a competition and shows a betoffer for the team to be placed first in the group.
 
 The groups are shown as tabs, if there are more groups that can be shown, in desktop mode arrows will appear to scroll between the available groups, in mobile mode now arrows will be shown and the tab area will be scrollable.
