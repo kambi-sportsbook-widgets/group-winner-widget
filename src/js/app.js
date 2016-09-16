@@ -64,20 +64,21 @@
          var highlightPromise = new Promise(( resolve, reject ) => {
             CoreLibrary.offeringModule.getHighlight()
                .then(( response ) => {
-                  var pathTermId1 = '/' + this.scope.args.filter;
-                  var pathTermId2 = '/' + this.scope.args.filter;
-                  // if finishes with /all remove it
-                  // the pathTermId in the highlight can ommit the /all at the end
-                  if (pathTermId2.slice(-4) === '/all') {
-                     pathTermId2 = pathTermId2.slice(0, -4);
-                  }
-                  response.groups.forEach(( item ) => {
-                     // Check if the configured filter exists in the highligh resource, if not reject the promise
-                     if ( item.pathTermId === pathTermId1 || item.pathTermId === pathTermId2 ) {
-                        resolve();
-                     }
-                  });
-                  reject('Filter: ' + this.scope.args.filter + ' does not exist in the highlight resource');
+                  resolve();
+                  // var pathTermId1 = '/' + this.scope.args.filter;
+                  // var pathTermId2 = '/' + this.scope.args.filter;
+                  // // if finishes with /all remove it
+                  // // the pathTermId in the highlight can ommit the /all at the end
+                  // if (pathTermId2.slice(-4) === '/all') {
+                  //    pathTermId2 = pathTermId2.slice(0, -4);
+                  // }
+                  // response.groups.forEach(( item ) => {
+                  //    // Check if the configured filter exists in the highligh resource, if not reject the promise
+                  //    if ( item.pathTermId === pathTermId1 || item.pathTermId === pathTermId2 ) {
+                  //       resolve();
+                  //    }
+                  // });
+                  // reject('Filter: ' + this.scope.args.filter + ' does not exist in the highlight resource');
                })
                .catch(( err ) => {
                   console.debug(err);
@@ -304,7 +305,7 @@
                      if (this.scope.args.tagline != null) {
                         this.scope.tagline = this.scope.args.tagline;
                      } else {
-                        if (events[i].betoffers.length > 0) {
+                        if (events[i].betOffers.length > 0) {
                            this.scope.tagline = events[i].betOffers[0].criterion.label;
                         }
                      }
