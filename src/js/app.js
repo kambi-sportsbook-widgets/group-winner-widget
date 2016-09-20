@@ -5,7 +5,7 @@
 
       defaultArgs: {
          filter: 'football/world_cup_qualifying_-_europe/all',
-         //filter: 'football/england/premier_league',
+         // filter: 'football/england/premier_league',
          title: null,
          tagline: null,
          criterionId: 1001615382,
@@ -24,7 +24,7 @@
       init () {
          CoreLibrary.setWidgetTrackingName(this.scope.args.widgetTrackingName);
          this.scope.mpe = 12;
-
+         this.scope.loaded = false;
          this.scope.ismobile = this.is_mobile();
 
          this.scope.title = null;
@@ -196,13 +196,13 @@
                }, 200);
 
                CoreLibrary.widgetModule.setWidgetHeight(this.scope.baseHeight + ( this.scope.rowHeight * this.scope.maxOutcomeCount));
+               this.scope.loaded = true;
             })
             .catch(( err ) => {
                console.debug('Error in request');
                console.debug(err);
                CoreLibrary.widgetModule.removeWidget();
             });
-
       },
 
       /**
