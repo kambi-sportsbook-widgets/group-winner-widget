@@ -1,6 +1,10 @@
 // General Widget Classes
 // Using a low nesting structure in order to ease the theming
 
+body {
+   @include transition(none !important); // hack to overwrite the core animation on opacity attribute
+}
+
 body > .KambiWidget-card-background-color {
    @include border-radius(2px);
 }
