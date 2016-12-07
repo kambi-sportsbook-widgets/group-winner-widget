@@ -57,7 +57,8 @@ class GroupWidget extends React.Component {
                title='WORLD CUP QUALIFYING - EUROPE'
                subtitle='Group Winner' />
             <BoxContainer>
-               <TabPagination renderTab={renderTab}>
+               <TabPagination
+                  renderTab={renderTab}>
                   { list.map((item, index) => <div key={index}>{item.content}</div>) }
                </TabPagination>
             </BoxContainer>
