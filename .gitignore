@@ -7,6 +7,10 @@ docs
 bower_components
 /.project
 mockSetupData.json
-/src/transpiled/
 /dist/
-/resourcepaths.json
+npm-debug.log
+.editorconfig
+.eslintrc
+.scss-lint.yml
+.DS_Store
+postcss.config.js

@@ -1,26 +1,34 @@
 {
-  "name": "group-winner-widget",
-  "version": "1.1.2",
-  "description": "Group Winner Widget",
+  "name": "head-to-head-widget",
+  "version": "1.1.6",
+  "description": "Head to Head Widget",
   "main": "dist/index.html",
   "scripts": {
-    "changelog": "changelog kambi-sportsbook-widgets/group-winner-widget all -m > CHANGELOG.md",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "kambi-widgets-cli clean",
+    "prestart": "npm run clean",
+    "start": "kambi-widgets-cli start",
+    "prebuild": "npm run clean",
+    "build": "kambi-widgets-cli build",
+    "preversion": "kambi-widgets-cli preversion",
+    "postversion": "kambi-widgets-cli postversion"
+  },
+  "dependencies": {
+    "kambi-widget-build-tools": "2.5.1",
+    "kambi-widget-components": "1.7.1",
+    "kambi-widget-core-library": "3.5.5",
+    "react": "15.3.2",
+    "react-dom": "15.3.2"
   },
   "devDependencies": {
-    "changelog": "latest",
-    "gulp": "^3.9.0",
-    "require-dir": "^0.3.0",
-    "widget-core-library": "git+ssh://git@github.com/kambi-sportsbook-widgets/widget-core-library.git#v2.10.0",
-    "widget-build-tools": "git+ssh://git@github.com:kambi-sportsbook-widgets/widget-build-tools.git#v1.4.5"
+    "kambi-widget-build-tools": "^2.2.8"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/kambi-sportsbook-widgets/group-winner-widget.git"
+    "url": "git+ssh://git@github.com/kambi-sportsbook-widgets/head-to-head-widget.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kambi-sportsbook-widgets/group-winner-widget/issues"
+    "url": "https://github.com/kambi-sportsbook-widgets/head-to-head-widget/issues"
   },
-  "homepage": "https://github.com/kambi-sportsbook-widgets/group-winner-widget#readme"
+  "homepage": "https://github.com/kambi-sportsbook-widgets/head-to-head-widget#readme"
 }
