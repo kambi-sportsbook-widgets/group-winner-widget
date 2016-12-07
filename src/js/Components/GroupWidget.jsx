@@ -2,6 +2,7 @@ import React from 'react';
 import { coreLibrary, widgetModule, translationModule, statisticsModule } from 'kambi-widget-core-library';
 import { TabPagination, IconHeader } from 'kambi-widget-components';
 import BoxContainer from './BoxContainer/BoxContainer';
+import styles from './GroupWidget.scss';
 
 class GroupWidget extends React.Component {
 
@@ -33,15 +34,19 @@ class GroupWidget extends React.Component {
          { title: 'E', content: 'Content E' },
          { title: 'F', content: 'Content F' },
          { title: 'G', content: 'Content G' },
-         { title: 'H', content: 'Content G' },
-         { title: 'I', content: 'Content G' },
-         { title: 'J', content: 'Content G' },
-         { title: 'K', content: 'Content G' },
-         { title: 'L', content: 'Content G' },
+         { title: 'H', content: 'Content H' },
+         { title: 'I', content: 'Content I' },
+         { title: 'J', content: 'Content J' },
+         { title: 'K', content: 'Content K' },
+         { title: 'L', content: 'Content L' },
+         { title: 'M', content: 'Content M' },
+         { title: 'O', content: 'Content O' },
+         { title: 'P', content: 'Content P' },
+         { title: 'R', content: 'Content R' },
       ];
 
       const renderTab = function (idx) {
-         return <div key={idx} style={{ width: 50 }}>{list[idx].title}</div>;
+         return (<div key={idx} className={styles.element}>{list[idx].title}</div>);
       };
 
       return (
