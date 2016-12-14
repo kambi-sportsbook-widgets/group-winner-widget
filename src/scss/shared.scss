@@ -1,0 +1,9 @@
+@mixin smoothing {
+   -webkit-font-smoothing: antialiased;
+}
+
+@mixin calc($property, $expression) {
+   #{$property}: -moz-calc(#{$expression});
+   #{$property}: -webkit-calc(#{$expression});
+   #{$property}: calc(#{$expression});
+}

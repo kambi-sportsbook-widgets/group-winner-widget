@@ -1,7 +1,9 @@
 import React from 'react';
-import { coreLibrary, widgetModule, translationModule, statisticsModule } from 'kambi-widget-core-library';
+import { widgetModule } from 'kambi-widget-core-library';
 import { TabPagination, IconHeader } from 'kambi-widget-components';
 import BoxContainer from './BoxContainer/BoxContainer';
+import CountryList from './CountryList/CountryList';
+import CountryListElement from './CountryList/CountryListElement/CountryListElement';
 import styles from './GroupWidget.scss';
 
 class GroupWidget extends React.Component {
@@ -49,21 +51,20 @@ class GroupWidget extends React.Component {
          return (<div key={idx} className={styles.element}>{list[idx].title}</div>);
       };
 
-      return (
-         <div>
-            <IconHeader
-               iconCSSClasses='KambiWidget-card-border-color'
-               iconPath='http://vector.stylove.com/images/small_1821.jpg'
-               title='WORLD CUP QUALIFYING - EUROPE'
-               subtitle='Group Winner' />
-            <BoxContainer>
-               <TabPagination
-                  renderTab={renderTab}>
-                  { list.map((item, index) => <div key={index}>{item.content}</div>) }
-               </TabPagination>
-            </BoxContainer>
-         </div>
-      );
+      return (<div>
+         <IconHeader
+            iconCSSClasses='KambiWidget-card-border-color'
+            iconPath='http://vector.stylove.com/images/small_1821.jpg'
+            title='WORLD CUP QUALIFYING - EUROPE'
+            subtitle='Group Winner'/>
+         <BoxContainer>
+            {[<CountryList>
+               <CountryListElement flagUrl='' country='Poland' value='3.5' />
+               <CountryListElement flagUrl='' country='England' value='3.2' />
+               <CountryListElement flagUrl='' country='Netherlands' value='3.1' />
+            </CountryList>]}
+         </BoxContainer>
+      </div>);
    }
 }
 

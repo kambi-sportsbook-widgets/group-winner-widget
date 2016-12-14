@@ -4,3 +4,9 @@
    text-align: center;
    margin: 0 auto;
 }
+
+:local(.button) {
+   background-color:red;
+   display: flex;
+   justify-content: center;
+}

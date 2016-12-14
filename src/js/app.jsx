@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import GroupWidget from './Components/GroupWidget';
-import './app.scss';
+import '../scss/app.scss';
 
 ReactDOM.render(
    <GroupWidget />,

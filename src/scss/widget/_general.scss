@@ -1,0 +1,11 @@
+body {
+   @include transition(none !important); // hack to overwrite the core animation on opacity attribute
+}
+
+body > .KambiWidget-card-background-color {
+   @include border-radius(2px);
+}
+
+.kw-header {
+   @include border-radius(2px 2px 0 0);
+}
