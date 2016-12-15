@@ -1,4 +1,4 @@
-import { widgetModule } from 'kambi-widget-core-library';
+import { coreLibrary, widgetModule, offeringModule } from 'kambi-widget-core-library';
 
 class Store {
 
@@ -15,40 +15,39 @@ class Store {
          pollInterval: 30000,
          widgetTrackingName: 'gm-group-winner-widget'
       };
+
+      this.args = Object.assign(this.defaultArgs, {});
+      this.state = {};
    }
 
    init () {
-      CoreLibrary.setWidgetTrackingName(this.scope.args.widgetTrackingName);
-      this.scope.mpe = 12;
-      this.scope.loaded = false;
-      this.scope.ismobile = this.is_mobile();
-
-      this.scope.title = null;
-      this.scope.tagline = null;
-
-      this.scope.baseHeight = 132;
-      this.scope.rowHeight = 44;
-      this.scope.maxOutcomeCount = 0;
-      this.scope.navigateToEvent = this.navigateToEvent.bind(this);
+      coreLibrary.setWidgetTrackingName(this.args.widgetTrackingName);
+      this.state.mpe = 12;
+      this.state.loaded = false;
+      this.state.ismobile = this.isMobile();
+      this.state.title = null;
+      this.state.tagline = null;
+      this.state.baseHeight = 132;
+      this.state.rowHeight = 44;
+      this.state.maxOutcomeCount = 0;
+      this.state.navigateToEvent = this.navigateToEvent.bind(this);
 
       // Get the betoffers
       var betofferPromise = new Promise(( resolve, reject ) => {
-         CoreLibrary.offeringModule
-         .getEventsByFilter(this.scope.args.filter + '/all/competitions/')
+         offeringModule
+         .getEventsByFilter(this.args.filter + '/all/competitions/')
          .then(( response ) => {
             resolve(response);
          })
          .catch(( err ) => {
-            console.debug(err, this.scope);
+            console.debug(err, this.state);
             reject(err);
          });
       });
 
-
-
       var matchesPromise = new Promise(( resolve, reject ) => {
-         CoreLibrary.offeringModule
-         .getEventsByFilter(this.scope.args.filter + '/all/matches/')
+         offeringModule
+         .getEventsByFilter(this.args.filter + '/all/matches/')
          .then(( response ) => {
             resolve(response);
          })
@@ -60,10 +59,10 @@ class Store {
 
       // Get the contents of the 'Popular' list
       var highlightPromise = new Promise(( resolve, reject ) => {
-         CoreLibrary.offeringModule.getHighlight()
+         offeringModule.getHighlight()
          .then(( response ) => {
-            var pathTermId1 = '/' + this.scope.args.filter;
-            var pathTermId2 = '/' + this.scope.args.filter;
+            var pathTermId1 = '/' + this.args.filter;
+            var pathTermId2 = '/' + this.args.filter;
             // if finishes with /all remove it
             // the pathTermId in the highlight can ommit the /all at the end
             if (pathTermId2.slice(-4) === '/all') {
@@ -75,7 +74,7 @@ class Store {
                   resolve();
                }
             });
-            reject('Filter: ' + this.scope.args.filter + ' does not exist in the highlight resource');
+            reject('Filter: ' + this.args.filter + ' does not exist in the highlight resource');
          })
          .catch(( err ) => {
             console.debug(err);
@@ -92,8 +91,8 @@ class Store {
             var i = 0, arrLength = filteredEvents.groups.length;
             for ( ; i < arrLength; ++i ) {
                var item = filteredEvents.groups[i];
-               if ( item.betOffers[0].outcomes.length > this.scope.maxOutcomeCount ) {
-                  this.scope.maxOutcomeCount = item.betOffers[0].outcomes.length;
+               if ( item.betOffers[0].outcomes.length > this.state.maxOutcomeCount ) {
+                  this.state.maxOutcomeCount = item.betOffers[0].outcomes.length;
                }
             }
 
@@ -128,21 +127,21 @@ class Store {
                }
             });
 
-            this.scope.events = filteredEvents.groups;
+            this.state.events = filteredEvents.groups;
 
             // Extra precaution to clear intervals
-            if ( this.scope.liveIntervals != null ) {
-               for ( var i in this.scope.liveIntervals ) {
-                  if ( this.scope.liveIntervals.hasOwnProperty(i) ) {
-                     clearInterval(this.scope.liveIntervals[i]);
+            if ( this.state.liveIntervals != null ) {
+               for ( var i in this.state.liveIntervals ) {
+                  if ( this.state.liveIntervals.hasOwnProperty(i) ) {
+                     clearInterval(this.state.liveIntervals[i]);
                   }
                }
             } else {
-               this.scope.liveIntervals = {};
+               this.state.liveIntervals = {};
             }
 
             // Check each event and it's betOffer, if it's live we set up polling for it
-            this.scope.events.forEach(( ev, index, arr ) => {
+            this.state.events.forEach(( ev, index, arr ) => {
                if ( ev.betOffers[0].live ) {
                   console.debug('Live event', ev.event.id);
                   this.pollLiveData(ev);
@@ -175,37 +174,37 @@ class Store {
             nextMatchHomeName = matches[0].event.homeName;
          }
          var tabToFocus = 0;
-         this.scope.events.forEach(( e, index ) => {
+         this.state.events.forEach(( e, index ) => {
             e.betOffers[0].outcomes.forEach(( o ) => {
                // we can't compare ids here, but this comparison works
                // even across different locales
                if ( nextMatchHomeName !== null && o.label === nextMatchHomeName ) {
                   tabToFocus = index;
                }
-               o.flagPath = '' + this.scope.args.flagUrl + o.participantId + '.svg';
+               o.flagPath = '' + this.args.flagUrl + o.participantId + '.svg';
             });
          });
 
-         this.pagination = new CoreLibrary.CustomPaginationComponent('#pagination', this.scope, 'events', 1, filteredEvents.groups.length);
+         this.pagination = new coreLibrary.CustomPaginationComponent('#pagination', this.state, 'events', 1, filteredEvents.groups.length);
 
          // Delaying the transition until we get elements rendered
          setTimeout(() => {
             this.pagination.setCurrentPageOnCLick(tabToFocus);
          }, 200);
 
-         CoreLibrary.widgetModule.setWidgetHeight(this.scope.baseHeight + ( this.scope.rowHeight * this.scope.maxOutcomeCount));
-         this.scope.loaded = true;
+         widgetModule.setWidgetHeight(this.state.baseHeight + ( this.state.rowHeight * this.state.maxOutcomeCount));
+         this.state.loaded = true;
       })
       .catch(( err ) => {
          console.debug('Error in request');
          console.debug(err);
-         CoreLibrary.widgetModule.removeWidget();
+         widgetModule.removeWidget();
       });
    }
 
    pollLiveData ( ev ) {
-      this.scope.liveIntervals[ev.event.id] = setInterval(() => {
-         CoreLibrary.offeringModule.getLiveEvent(ev.event.id)
+      this.state.liveIntervals[ev.event.id] = setInterval(() => {
+         offeringModule.getLiveEvent(ev.event.id)
          .then(( res ) => {
             // Sort outcomes according to odds
             res.betOffers[0].outcomes.sort(function ( a, b ) {
@@ -231,16 +230,16 @@ class Store {
             if ( error.response.status === 404 ) {
                console.debug('Live event does not exist anymore');
                // Clear the polling interval for the event
-               clearInterval(this.scope.liveIntervals[ev.event.id]);
+               clearInterval(this.state.liveIntervals[ev.event.id]);
                // Remove the event
                this.removeEvent(ev.event.id);
             }
          });
-      }, this.scope.args.pollInterval);
+      }, this.state.args.pollInterval);
    }
 
    checkEventCount() {
-      if (events.length === 0) {
+      if (this.state.events.length === 0) {
          console.debug('No tournament groups found, widget removing itself');
          widgetModule.removeWidget();
       }
@@ -249,14 +248,14 @@ class Store {
    removeEvent ( eventId ) {
       var foundIndex = -1;
       // Iterate over the events and look for the id
-      this.scope.events.forEach(( ev, index, arr ) => {
+      this.state.events.forEach(( ev, index, arr ) => {
          if ( ev.event.id === eventId ) {
             foundIndex = index;
          }
       });
       // If we find the id, we remove it
       if ( foundIndex !== -1 ) {
-         this.scope.events.splice(foundIndex, 1);
+         this.state.events.splice(foundIndex, 1);
       }
       // Check if there are any betoffers to show
       this.checkEventCount();
@@ -265,7 +264,7 @@ class Store {
    filterOutBetOffers ( events ) {
       // Map the criterion
       var mappings = {};
-      mappings[this.scope.args.criterionId] = 'groups';
+      mappings[this.args.criterionId] = 'groups';
 
       // The return object
       var ret = {
@@ -280,21 +279,21 @@ class Store {
             // Check if the criterion id is one we've mapped
             if ( mappings.hasOwnProperty(events[i].betOffers[0].criterion.id) ) {
                // Set the tagline from the outcome criterion so we get it translated
-               if (this.scope.tagline == null) {
-                  if (this.scope.args.tagline != null) {
-                     this.scope.tagline = this.scope.args.tagline;
+               if (this.state.tagline == null) {
+                  if (this.args.tagline != null) {
+                     this.state.tagline = this.args.tagline;
                   } else {
                      if (events[i].betOffers.length > 0) {
-                        this.scope.tagline = events[i].betOffers[0].criterion.label;
+                        this.state.tagline = events[i].betOffers[0].criterion.label;
                      }
                   }
                }
                // Set title as well
-               if (this.scope.title == null) {
-                  if (this.scope.args.title != null) {
-                     this.scope.title = this.scope.args.title;
+               if (this.state.title == null) {
+                  if (this.args.title != null) {
+                     this.state.title = this.args.title;
                   } else {
-                     this.scope.title = events[i].event.group;
+                     this.state.title = events[i].event.group;
                   }
                }
                // Sort outcomes based on odds
@@ -329,15 +328,15 @@ class Store {
    navigateToEvent ( e, data ) {
       console.log(data, data.event.event.id);
       if ( data && data.event && data.event.event.openForLiveBetting != null && data.event.event.openForLiveBetting === true ) {
-         CoreLibrary.widgetModule.navigateToLiveEvent(data.event.event.id);
+         widgetModule.navigateToLiveEvent(data.event.event.id);
       } else {
-         CoreLibrary.widgetModule.navigateToEvent(data.event.event.id);
+         widgetModule.navigateToEvent(data.event.event.id);
       }
    }
 
    handleIntervals ( interval ) {
       var onlineDate = {},
-         intervalObj = this.scope.args.hasOwnProperty(interval) ? this.scope.args[interval] : null,
+         intervalObj = this.state.args.hasOwnProperty(interval) ? this.args[interval] : null,
          date_now = new Date();
 
       if ( intervalObj && typeof intervalObj === 'object' && Object.keys(intervalObj).length ) {
@@ -364,7 +363,7 @@ class Store {
       if ( !this.scope.online ) {
          this.handleError('widget, offline');
       }
-   },
+   }
 
    handleError(prm) {
       console.warn('Cannot load ', prm, ', removing ' + this.scope.args.widgetTrackingName);

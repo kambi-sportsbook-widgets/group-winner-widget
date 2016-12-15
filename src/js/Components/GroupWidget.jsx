@@ -56,13 +56,22 @@ class GroupWidget extends React.Component {
             iconCSSClasses='KambiWidget-card-border-color'
             iconPath='http://vector.stylove.com/images/small_1821.jpg'
             title='WORLD CUP QUALIFYING - EUROPE'
-            subtitle='Group Winner'/>
+            subtitle='Group Winner' />
          <BoxContainer>
-            {[<CountryList>
-               <CountryListElement flagUrl='' country='Poland' value='3.5' />
-               <CountryListElement flagUrl='' country='England' value='3.2' />
-               <CountryListElement flagUrl='' country='Netherlands' value='3.1' />
-            </CountryList>]}
+            <CountryList>
+               <CountryListElement
+                  key={'1'}
+                  flagUrl='https://d1fqgomuxh4f5p.cloudfront.net/customcss/group-winner-widget/flags/1000000062.svg'
+                  country='Poland' value='3.5' />
+               <CountryListElement
+                  key={'2'}
+                  flagUrl='https://d1fqgomuxh4f5p.cloudfront.net/customcss/group-winner-widget/flags/1000000062.svg'
+                  country='England' value='3.2' />
+               <CountryListElement
+                  key={'3'}
+                  flagUrl='https://d1fqgomuxh4f5p.cloudfront.net/customcss/group-winner-widget/flags/1000000062.svg'
+                  country='Netherlands' value='3.1' />
+            </CountryList>
          </BoxContainer>
       </div>);
    }
