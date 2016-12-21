@@ -337,7 +337,7 @@ class Store {
    handleIntervals ( interval ) {
       var onlineDate = {},
          intervalObj = this.state.args.hasOwnProperty(interval) ? this.args[interval] : null,
-         date_now = new Date();
+         dateNow = new Date();
 
       if ( intervalObj && typeof intervalObj === 'object' && Object.keys(intervalObj).length ) {
          var i = 0, arrLength = Object.keys(intervalObj).length;
@@ -348,7 +348,7 @@ class Store {
             var start = new Date(key),
                end = new Date(value);
 
-            if ( date_now > start && date_now < end ) {
+            if ( dateNow > start && dateNow < end ) {
                onlineDate = {
                   online: start
                };
