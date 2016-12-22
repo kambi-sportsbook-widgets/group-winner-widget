@@ -28,6 +28,7 @@ class GroupWidget extends React.Component {
    }
 
    render() {
+
       const list = [
          { title: 'A', content: 'Content A' },
          { title: 'B', content: 'Content B' },

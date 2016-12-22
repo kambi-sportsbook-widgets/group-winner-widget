@@ -4,9 +4,8 @@ import GroupWidget from '../Components/GroupWidget';
 
 class Widget {
 
-   constructor(filters, parameters) {
-      console.log(filters, parameters);
-      this.render.call(this);
+   constructor() {
+      this.render();
    }
 
    render() {

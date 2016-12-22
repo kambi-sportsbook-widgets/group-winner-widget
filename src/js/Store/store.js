@@ -3,9 +3,9 @@ import { coreLibrary, widgetModule, offeringModule } from 'kambi-widget-core-lib
 class Store {
 
    constructor() {
+
       this.defaultArgs = {
-         filter: 'football/world_cup_qualifying_-_europe/all',
-         // filter: 'football/england/premier_league',
+         filter: 'football/world_cup_qualifying_-_europe',
          title: null,
          tagline: null,
          criterionId: 1001615382,
@@ -21,6 +21,7 @@ class Store {
    }
 
    init () {
+
       coreLibrary.setWidgetTrackingName(this.args.widgetTrackingName);
       this.state.mpe = 12;
       this.state.loaded = false;
@@ -33,9 +34,10 @@ class Store {
       this.state.navigateToEvent = this.navigateToEvent.bind(this);
 
       // Get the betoffers
+
       var betofferPromise = new Promise(( resolve, reject ) => {
          offeringModule
-         .getEventsByFilter(this.args.filter + '/all/competitions/')
+         .getEventsByFilter(this.args.filter + '/competitions/')
          .then(( response ) => {
             resolve(response);
          })
@@ -47,7 +49,7 @@ class Store {
 
       var matchesPromise = new Promise(( resolve, reject ) => {
          offeringModule
-         .getEventsByFilter(this.args.filter + '/all/matches/')
+         .getEventsByFilter(this.args.filter + '/matches/')
          .then(( response ) => {
             resolve(response);
          })
@@ -185,15 +187,7 @@ class Store {
             });
          });
 
-         this.pagination = new coreLibrary.CustomPaginationComponent('#pagination', this.state, 'events', 1, filteredEvents.groups.length);
-
-         // Delaying the transition until we get elements rendered
-         setTimeout(() => {
-            this.pagination.setCurrentPageOnCLick(tabToFocus);
-         }, 200);
-
          widgetModule.setWidgetHeight(this.state.baseHeight + ( this.state.rowHeight * this.state.maxOutcomeCount));
-         this.state.loaded = true;
       })
       .catch(( err ) => {
          console.debug('Error in request');
@@ -236,13 +230,6 @@ class Store {
             }
          });
       }, this.state.args.pollInterval);
-   }
-
-   checkEventCount() {
-      if (this.state.events.length === 0) {
-         console.debug('No tournament groups found, widget removing itself');
-         widgetModule.removeWidget();
-      }
    }
 
    removeEvent ( eventId ) {
@@ -325,8 +312,7 @@ class Store {
       return ret;
    }
 
-   navigateToEvent ( e, data ) {
-      console.log(data, data.event.event.id);
+   navigateToEvent (e, data ) {
       if ( data && data.event && data.event.event.openForLiveBetting != null && data.event.event.openForLiveBetting === true ) {
          widgetModule.navigateToLiveEvent(data.event.event.id);
       } else {
@@ -334,7 +320,7 @@ class Store {
       }
    }
 
-   handleIntervals ( interval ) {
+   handleIntervals (interval) {
       var onlineDate = {},
          intervalObj = this.state.args.hasOwnProperty(interval) ? this.args[interval] : null,
          dateNow = new Date();
@@ -359,7 +345,6 @@ class Store {
          this.scope.online = true;
       }
 
-      console.log(this.scope.args.widgetTrackingName + ' online:', this.scope.online);
       if ( !this.scope.online ) {
          this.handleError('widget, offline');
       }
@@ -368,12 +353,6 @@ class Store {
    handleError(prm) {
       console.warn('Cannot load ', prm, ', removing ' + this.scope.args.widgetTrackingName);
       widgetModule.removeWidget();
-   }
-
-   isMobile() {
-      var testBrowser = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-      this.mainElement = document.getElementById('group-winner');
-      return this.mainElement.offsetWidth <= 768 && ('ontouchstart' in window) && testBrowser;
    }
 
 }

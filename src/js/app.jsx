@@ -1,22 +1,22 @@
 import { widgetModule, coreLibrary, eventsModule } from 'kambi-widget-core-library';
 import '../scss/app.scss';
-import kambi from './Services/kambi';
-import mobile from './Services/mobile';
-import live from './Services/live';
+import KambiService from './Services/kambi';
 import Widget from './Widget';
 
 /**
  * Removes widget on fatal errors.
  * @param {Error} error Error instance
  */
-const onFatal = function(error) {
+const onFatal = function (error) {
    widgetModule.removeWidget();
    throw error;
 };
 
+const kambiService = new KambiService(['football/world_cup_qualifying_-_europe']);
+
 coreLibrary.init({
    filter: [
-      'football/world_cup_qualifying_-_europe/all/all/competitions',
+      'football/world_cup_qualifying_-_europe/all',
    ],
    title: null,
    tagline: null,
@@ -33,17 +33,11 @@ coreLibrary.init({
 .then(() => {
    coreLibrary.setWidgetTrackingName(coreLibrary.args.widgetTrackingName);
    eventsModule.liveEventPollingInterval = coreLibrary.args.pollingInterval;
-   return kambi.getEvents(coreLibrary.args.filter);
+   return kambiService.getAll();
 })
-.then((filters) => {
-
-    if (filters.length === 0) {
-      onFatal(new Error('No matching filters in highlight'));
-      return;
-   }
+.then((data) => {
 
    const widget = new Widget(
-      filters,
       {
          combineFilters: coreLibrary.args.combineFilters,
          eventsRefreshInterval: coreLibrary.args.eventsRefreshInterval,

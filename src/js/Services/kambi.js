@@ -1,107 +1,73 @@
-import { coreLibrary, offeringModule, widgetModule } from 'kambi-widget-core-library';
+import { coreLibrary, offeringModule, widgetModule } from 'kambi-widget-core-library'
 
-/**
- * Checks the highlight resource against the supported filters and decides whether the widget is online or not
- * @param {string[]} supportedFilters Supported filters
- * @returns Promise.<string[]>
- */
-const getHighlightedFilters = function(supportedFilters) {
-   return offeringModule.getHighlight()
-   .then((response) => {
-      if (!Array.isArray(response.groups)) {
-         throw new Error('Highlight response empty, hiding widget');
-      }
+class KambiService {
 
-      return response.groups
-      .map(group => group.pathTermId)
-      .filter(filter => supportedFilters.indexOf(filter) !== -1);
-   });
-};
+   constructor(filter) {
 
-/**
- * Filters events that are matches from getEventsByFilter response.
- * @param {object} response getEventsByFilter response
- * @returns {object[]}
- */
-const filterEvents = function(response) {
-   if (!response || !Array.isArray(response.events)) {
-      return [];
-   }
-
-   return response.events
-   .filter(event => event.event.type === 'ET_MATCH');
-};
-
-/**
- * Fetches events by combining given filters together.
- * @param {String[]} filters
- * @returns {Promise.<object[]>}
- */
-const getEventsCombined = function(filters) {
-   const filter = widgetModule.createFilterUrl(filters);
-   let replaceString = '#filter/';
-
-   if (coreLibrary.config.routeRoot !== '') {
-      replaceString = '#' + coreLibrary.config.routeRoot + '/filter/';
-   }
-
-   const url = filter ? filter.replace(replaceString, '') : 'football';
-
-   return offeringModule.getEventsByFilter(url)
-   .then(filterEvents)
-   .then((events) => {
-      return { events, filter };
-   });
-};
-
-/**
- * Fetches events by checking filters one after another until finding matching events.
- * @param {String[]} filters Filters to check
- * @returns {Promise.<{filter: string, events: object[]}>}
- */
-const getEventsProgressively = function(filters) {
-   // start searching for events
-   const loop = (i) => {
-      if (i >= filters.length) {
-         // no more filters to check
-         return null;
-      }
-      // checking ith filter
-      return offeringModule.getEventsByFilter(filters[i].replace(/^\//, ''))
-      // uncomment this to test falling back to the second filter
-      // .then((res) => {
-      //    if (i < 1) {
-      //       res.events = [];
-      //    }
-      //    return res;
-      // })
-      .then(filterEvents)
-      .then((events) => {
-         if (events.length > 0) {
-            // found matching events
-            return { filter: filters[i], events };
-         }
-
-         // matching events not found, proceed to next filter
-         return Promise.resolve(i + 1)
-         .then(loop);
+      this.betofferPromise = new Promise((resolve, reject) => {
+         offeringModule
+         .getEventsByFilter(filter + '/all/competitions/')
+         .then((response) => {
+            resolve(response);
+         })
+         .catch((err) => {
+            console.debug(err, this.state);
+            reject(err);
+         });
       });
-   };
 
-   return Promise.resolve(0)
-   .then(loop);
-};
+      this.matchesPromise = new Promise((resolve, reject) => {
+         offeringModule
+         .getEventsByFilter(filter + '/all/matches/')
+         .then((response) => {
+            resolve(response);
+         })
+         .catch((err) => {
+            console.debug(err);
+            reject(err);
+         });
+      });
 
-/**
- * Fetches events for given filter list.
- * Returns object having events array and applied filter field.
- * @param {string[]} filters Filters
- * @param {boolean} combined Whether events should be fetched using single combined query or one filter at the time
- * @returns {Promise.<{events: object[], filter: string}>}
- */
-const getEvents = function(filters, combined = true) {
-   const getEventsFunc = combined ? getEventsCombined : getEventsProgressively;
-   return getEventsFunc(filters);
-};
+      this.highlightPromise = new Promise((resolve, reject) => {
+         offeringModule.getHighlight()
+         .then((response) => {
+            var pathTermId1 = '/' + this.filter;
+            var pathTermId2 = '/' + this.filter;
+            if (pathTermId2.slice(-4) === '/all') {
+               pathTermId2 = pathTermId2.slice(0, -4);
+            }
+            response.groups.forEach((item) => {
+               if (item.pathTermId === pathTermId1 || item.pathTermId === pathTermId2) {
+                  resolve();
+               }
+            });
+            reject('Filter: ' + this.filter + ' does not exist in the highlight resource');
+         })
+         .catch((err) => {
+            console.debug(err);
+            reject(err);
+         });
+      });
 
-export default { getHighlightedFilters, getEvents };
+      this.getAll = function() {
+         return Promise.all([this.betofferPromise, this.matchesPromise, this.highlightPromise])
+         .then(( promiseData ) => {
+            return this.filterOutBetOffers(promiseData[0].events);
+         })
+         .catch(( err ) => {
+            console.debug('Error in request');
+            console.debug(err);
+            coreLibrary.widgetModule.removeWidget();
+         });
+      };
+
+      this.checkEventCount = function (events) {
+         if (events.length === 0) {
+            console.debug('No tournament groups found, widget removing itself');
+            widgetModule.removeWidget();
+         }
+      };
+   }
+}
+
+export default KambiService;
