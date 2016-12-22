@@ -12,8 +12,6 @@ const onFatal = function (error) {
    throw error;
 };
 
-const kambiService = new KambiService(['football/world_cup_qualifying_-_europe']);
-
 coreLibrary.init({
    filter: [
       'football/world_cup_qualifying_-_europe/all',
@@ -33,7 +31,7 @@ coreLibrary.init({
 .then(() => {
    coreLibrary.setWidgetTrackingName(coreLibrary.args.widgetTrackingName);
    eventsModule.liveEventPollingInterval = coreLibrary.args.pollingInterval;
-   return kambiService.getAll();
+   return KambiService.getAll(coreLibrary.args.filter);
 })
 .then((data) => {
 
