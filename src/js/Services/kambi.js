@@ -29,18 +29,7 @@ class KambiService {
          .then(( response ) => {
             var pathTermId1 = '/' + filter;
             var pathTermId2 = '/' + filter;
-            // if finishes with /all remove it
-            // the pathTermId in the highlight can ommit the /all at the end
-            if (pathTermId2.slice(-4) === '/all') {
-               pathTermId2 = pathTermId2.slice(0, -4);
-            }
-            response.groups.forEach(( item ) => {
-               // Check if the configured filter exists in the highligh resource, if not reject the promise
-               if ( item.pathTermId === pathTermId1 || item.pathTermId === pathTermId2 ) {
-                  resolve();
-               }
-            });
-            reject('Filter: ' + filter + ' does not exist in the highlight resource');
+            resolve();
          })
          .catch(( err ) => {
             console.debug(err);
@@ -73,6 +62,65 @@ class KambiService {
          console.debug(err);
          widgetModule.removeWidget();
       });
+   }
+
+   static filterOutBetOffers ( events ) {
+
+      var mappings = {};
+      mappings[this.scope.args.criterionId] = 'groups';
+
+      var ret = {
+         groups: []
+      };
+
+      var i = 0, len = events.length;
+      for ( ; i < len; ++i ) {
+         if ( events[i].betOffers != null && events[i].betOffers.length === 1 ) {
+            if ( mappings.hasOwnProperty(events[i].betOffers[0].criterion.id) ) {
+
+               /* if (this.scope.tagline == null) {
+                  if (this.scope.args.tagline != null) {
+                     this.scope.tagline = this.scope.args.tagline;
+                  } else {
+                     if (events[i].betOffers.length > 0) {
+                        this.scope.tagline = events[i].betOffers[0].criterion.label;
+                     }
+                  }
+               } */
+
+               /* if (this.scope.title == null) {
+                  if (this.scope.args.title != null) {
+                     this.scope.title = this.scope.args.title;
+                  } else {
+                     this.scope.title = events[i].event.group;
+                  }
+               }*/
+
+               events[i].betOffers[0].outcomes.sort(function ( a, b ) {
+                  if ( a.odds < b.odds ) {
+                     return -1;
+                  }
+                  if ( a.odds > b.odds ) {
+                     return 1;
+                  }
+                  return 0;
+               });
+               ret[mappings[events[i].betOffers[0].criterion.id]].push(events[i]);
+            }
+         }
+      }
+
+      ret.groups.sort(function ( a, b ) {
+         if ( a.event.name < b.event.name ) {
+            return -1;
+         }
+         if ( a.event.name > b.event.name ) {
+            return 1;
+         }
+         return 0;
+      });
+
+      return ret;
    }
 }
 
