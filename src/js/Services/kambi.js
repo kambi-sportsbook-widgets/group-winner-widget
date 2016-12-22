@@ -64,7 +64,7 @@ class KambiService {
    }
 
    static getAll(filter) {
-      return Promise.all([this.betofferPromise, this.matchesPromise, this.highlightPromise])
+      return Promise.all([this.betofferPromise(filter), this.matchesPromise(filter), this.highlightPromise(filter)])
       .then((promiseData) => {
          return this.filterOutBetOffers(promiseData[0].events);
       })
