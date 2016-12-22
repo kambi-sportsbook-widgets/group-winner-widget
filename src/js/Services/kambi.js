@@ -24,14 +24,14 @@ class KambiService {
    }
 
    static highlightPromise(filter) {
-      return new Promise(( resolve, reject ) => {
+      return new Promise((resolve, reject) => {
          offeringModule.getHighlight()
-         .then(( response ) => {
+         .then((response) => {
             var pathTermId1 = '/' + filter;
             var pathTermId2 = '/' + filter;
             resolve();
          })
-         .catch(( err ) => {
+         .catch((err) => {
             console.debug(err);
             reject(err);
          });
@@ -52,10 +52,10 @@ class KambiService {
       });
    }
 
-   static getAll(filter) {
+   static getAll(filter, criterionId) {
       return Promise.all([this.betofferPromise(filter), this.matchesPromise(filter), this.highlightPromise(filter)])
       .then((promiseData) => {
-         return this.filterOutBetOffers(promiseData[0].events);
+         return this.filterOutBetOffers(promiseData[0].events, criterionId);
       })
       .catch((err) => {
          console.debug('Error in request');
@@ -64,62 +64,23 @@ class KambiService {
       });
    }
 
-   static filterOutBetOffers ( events ) {
+   static filterOutBetOffers(events, criterionId) {
+      debugger;
 
       var mappings = {};
-      mappings[this.scope.args.criterionId] = 'groups';
+      mappings[criterionId] = 'groups';
 
       var ret = {
          groups: []
       };
 
-      var i = 0, len = events.length;
-      for ( ; i < len; ++i ) {
-         if ( events[i].betOffers != null && events[i].betOffers.length === 1 ) {
-            if ( mappings.hasOwnProperty(events[i].betOffers[0].criterion.id) ) {
-
-               /* if (this.scope.tagline == null) {
-                  if (this.scope.args.tagline != null) {
-                     this.scope.tagline = this.scope.args.tagline;
-                  } else {
-                     if (events[i].betOffers.length > 0) {
-                        this.scope.tagline = events[i].betOffers[0].criterion.label;
-                     }
-                  }
-               } */
-
-               /* if (this.scope.title == null) {
-                  if (this.scope.args.title != null) {
-                     this.scope.title = this.scope.args.title;
-                  } else {
-                     this.scope.title = events[i].event.group;
-                  }
-               }*/
-
-               events[i].betOffers[0].outcomes.sort(function ( a, b ) {
-                  if ( a.odds < b.odds ) {
-                     return -1;
-                  }
-                  if ( a.odds > b.odds ) {
-                     return 1;
-                  }
-                  return 0;
-               });
+      for (var i = 0; i < events.length; ++i) {
+         if (events[i].betOffers != null && events[i].betOffers.length === 1) {
+            if (mappings.hasOwnProperty(events[i].betOffers[0].criterion.id)) {
                ret[mappings[events[i].betOffers[0].criterion.id]].push(events[i]);
             }
          }
       }
-
-      ret.groups.sort(function ( a, b ) {
-         if ( a.event.name < b.event.name ) {
-            return -1;
-         }
-         if ( a.event.name > b.event.name ) {
-            return 1;
-         }
-         return 0;
-      });
-
       return ret;
    }
 }

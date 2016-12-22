@@ -31,7 +31,7 @@ coreLibrary.init({
 .then(() => {
    coreLibrary.setWidgetTrackingName(coreLibrary.args.widgetTrackingName);
    eventsModule.liveEventPollingInterval = coreLibrary.args.pollingInterval;
-   return KambiService.getAll(coreLibrary.args.filter);
+   return KambiService.getAll(coreLibrary.args.filter, coreLibrary.args.criterionId);
 })
 .then((data) => {
 
