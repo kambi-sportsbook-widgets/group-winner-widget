@@ -68,11 +68,6 @@ class KambiService {
       return name.split(' ')[name.split(' ').length - 1];
    }
 
-   static getGroupNames(events) {
-      return events.groups.map(group => group.event.englishName)
-      .map(name => ({ groupName: name.split(' ')[name.split(' ').length - 1] }));
-   }
-
    static filterOutBetOffers(events, criterionId) {
       const mappings = {};
       mappings[criterionId] = 'groups';
