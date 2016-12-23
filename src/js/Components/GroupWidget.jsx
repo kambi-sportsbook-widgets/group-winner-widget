@@ -44,15 +44,17 @@ class GroupWidget extends React.Component {
             subtitle='Group Winner' />
          <BoxContainer>
             <TabPagination renderTab={renderTab}>
-               { list.map((element, index) => <div key={index}>
-                  { index }
-                  <CountryList>
-                     <CountryListElement
-                        key={'1'}
-                        flagUrl='https://d1fqgomuxh4f5p.cloudfront.net/customcss/group-winner-widget/flags/1000000062.svg'
-                        country='Poland' value='3.5' />
-                  </CountryList>
-               </div>) }
+               { list.map((group, i) =>
+                  <div key={i}>
+                     <CountryList>
+                        { group.outcomes.map((outcome, j) =>
+                           (<CountryListElement
+                              key={j}
+                              flagUrl='https://d1fqgomuxh4f5p.cloudfront.net/customcss/group-winner-widget/flags/1000000062.svg'
+                              country={outcome.label} value='3.5' />)) }
+                     </CountryList>
+                  </div>)
+               }
             </TabPagination>
          </BoxContainer>
       </div>);
