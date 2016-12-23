@@ -50,8 +50,8 @@ class GroupWidget extends React.Component {
                         { group.outcomes.map((outcome, j) =>
                            (<CountryListElement
                               key={j}
-                              flagUrl='https://d1fqgomuxh4f5p.cloudfront.net/customcss/group-winner-widget/flags/1000000062.svg'
-                              country={outcome.label} value='3.5' />)) }
+                              flagUrl={'https://d1fqgomuxh4f5p.cloudfront.net/customcss/group-winner-widget/flags/' + outcome.participantId + '.svg'}
+                              country={outcome.label} value={outcome.oddsFractional} />)) }
                      </CountryList>
                   </div>)
                }
