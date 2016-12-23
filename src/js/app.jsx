@@ -34,14 +34,12 @@ coreLibrary.init({
    return KambiService.getAll(coreLibrary.args.filter, coreLibrary.args.criterionId);
 })
 .then((data) => {
-
-   const widget = new Widget(
-      {
-         combineFilters: coreLibrary.args.combineFilters,
-         eventsRefreshInterval: coreLibrary.args.eventsRefreshInterval,
-         pollingCount: coreLibrary.args.pollingCount,
-         onFatal
-      }
-   );
+   console.log('data', data);
+   const processedData = data.groups.map(group=>({
+      groupName: KambiService.getGroupName(group.event.englishName),
+      outcomes: [].concat.apply([], group.betOffers.map(betOffer=>betOffer.outcomes))
+   }));
+   console.log('result', processedData);
+   const widget = new Widget({ data: processedData });
 })
 .catch(onFatal);

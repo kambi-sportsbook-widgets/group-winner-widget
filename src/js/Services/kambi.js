@@ -64,24 +64,31 @@ class KambiService {
       });
    }
 
-   static filterOutBetOffers(events, criterionId) {
-      debugger;
+   static getGroupName(name) {
+      return name.split(' ')[name.split(' ').length - 1];
+   }
 
-      var mappings = {};
+   static getGroupNames(events) {
+      return events.groups.map(group => group.event.englishName)
+      .map(name => ({ groupName: name.split(' ')[name.split(' ').length - 1] }));
+   }
+
+   static filterOutBetOffers(events, criterionId) {
+      const mappings = {};
       mappings[criterionId] = 'groups';
 
-      var ret = {
+      const result = {
          groups: []
       };
 
       for (var i = 0; i < events.length; ++i) {
          if (events[i].betOffers != null && events[i].betOffers.length === 1) {
             if (mappings.hasOwnProperty(events[i].betOffers[0].criterion.id)) {
-               ret[mappings[events[i].betOffers[0].criterion.id]].push(events[i]);
+               result[mappings[events[i].betOffers[0].criterion.id]].push(events[i]);
             }
          }
       }
-      return ret;
+      return result;
    }
 }
 

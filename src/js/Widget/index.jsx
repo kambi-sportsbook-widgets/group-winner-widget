@@ -4,13 +4,14 @@ import GroupWidget from '../Components/GroupWidget';
 
 class Widget {
 
-   constructor() {
+   constructor({ data }) {
+      this.data = data;
       this.render();
    }
 
    render() {
       ReactDOM.render(
-         <GroupWidget />,
+         <GroupWidget data={this.data} />,
          document.getElementById('root'));
    }
 }
