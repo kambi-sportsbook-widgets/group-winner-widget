@@ -51,7 +51,7 @@ class GroupWidget extends React.Component {
                            (<CountryListElement
                               key={j}
                               flagUrl={'https://d1fqgomuxh4f5p.cloudfront.net/customcss/group-winner-widget/flags/' + outcome.participantId + '.svg'}
-                              country={outcome.label} value={outcome.oddsFractional} />)) }
+                              country={outcome.label} value={parseFloat(outcome.oddsFractional)} />)) }
                      </CountryList>
                   </div>)
                }
