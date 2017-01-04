@@ -1,90 +1,84 @@
-import { offeringModule, widgetModule } from 'kambi-widget-core-library'
+import { offeringModule } from 'kambi-widget-core-library'
 
 class KambiService {
 
-   static checkEventCount(events) {
-      if (events.length === 0) {
-         console.debug('No tournament groups found, widget removing itself');
-         widgetModule.removeWidget();
-      }
-   }
-
-   static betofferPromise(filter) {
-      return new Promise((resolve, reject) => {
-         offeringModule
-         .getEventsByFilter(filter + '/all/competitions/')
+   /**
+    * Checks if given filter exists in current highlights.
+    * @param {string} filter Filter to check
+    * @returns {Promise.<boolean>}
+    */
+   static existsInHighlights(filter) {
+      return offeringModule.getHighlight()
          .then((response) => {
-            resolve(response);
-         })
-         .catch((err) => {
-            console.debug(err, this.state);
-            reject(err);
+            // @todo: for tests
+            response.groups[0].pathTermId = '/football/world_cup_qualifying_-_europe';
+
+            const regex = new RegExp(`^/${filter.replace(/\/all/g, '')}(/all)*$`);
+            return !!response.groups.find(group => group.pathTermId.match(regex));
          });
-      });
    }
 
-   static highlightPromise(filter) {
-      return new Promise((resolve, reject) => {
-         offeringModule.getHighlight()
-         .then((response) => {
-            var pathTermId1 = '/' + filter;
-            var pathTermId2 = '/' + filter;
-            resolve();
-         })
-         .catch((err) => {
-            console.debug(err);
-            reject(err);
+   /**
+    * Fetches groups for given tournament.
+    * @param {string} filter Tournament's filter
+    * @param {number} criterionId Tournament's criterion identifier
+    * @returns {Promise.<object[]>}
+    */
+   static getGroups(filter, criterionId) {
+      return offeringModule.getEventsByFilter(`${filter}/all/competitions/`)
+         .then((competitions) => {
+            return competitions.events
+
+               // must have exactly one betoffer
+               .filter(event => event.betOffers != null && event.betOffers.length === 1)
+
+               // criterion must match
+               .filter(event => event.betOffers[0].criterion.id == criterionId)
+
+               // set groupName
+               .map((event) => {
+                  const groupName = event.event.englishName.split(' ');
+                  event.groupName = groupName[groupName.length - 1];
+                  return event;
+               })
+
+               // sort based on groupName field
+               .sort((a, b) => a.groupName.localeCompare(b.groupName))
+
+               // remove the prelive event if there is one live of same groupName
+               .filter((group, i, groups) => {
+                  if (group.betOffers[0].live) {
+                     return true;
+                  }
+
+                  return !groups.find(g => g.groupName == group.groupName && g.betOffers[0].live);
+               })
+
+               // sort outcomes by odds value
+               .map((group) => {
+                  group.betOffers[0].outcomes.sort((a, b) => a.odds - b.odds);
+                  return group;
+               });
          });
-      });
    }
 
-   static matchesPromise(filter) {
-      return new Promise((resolve, reject) => {
-         offeringModule
-         .getEventsByFilter(filter + '/all/matches/')
-         .then((response) => {
-            resolve(response);
+   /**
+    * Returns home team name of tournament's closest match.
+    * @param {string} filter Tournament's filter
+    * @returns {Promise.<string|null>}
+    */
+   static getNextMatchHomeName(filter) {
+      return offeringModule.getEventsByFilter(`${filter}/all/matches/`)
+         .then((matches) => {
+            const currentTime = Date.now();
+
+            return matches.events
+               .filter(m => m.event.type === 'ET_MATCH' && m.event.start != null && m.event.start > currentTime)
+               .sort((a, b) => a.event.start - b.event.start);
          })
-         .catch((err) => {
-            console.debug(err);
-            reject(err);
-         });
-      });
+         .then(matches => (matches.length > 0 ? matches[0].event.homeName : null));
    }
 
-   static getAll(filter, criterionId) {
-      return Promise.all([this.betofferPromise(filter), this.matchesPromise(filter), this.highlightPromise(filter)])
-      .then((promiseData) => {
-         return this.filterOutBetOffers(promiseData[0].events, criterionId);
-      })
-      .catch((err) => {
-         console.debug('Error in request');
-         console.debug(err);
-         widgetModule.removeWidget();
-      });
-   }
-
-   static getGroupName(name) {
-      return name.split(' ')[name.split(' ').length - 1];
-   }
-
-   static filterOutBetOffers(events, criterionId) {
-      const mappings = {};
-      mappings[criterionId] = 'groups';
-
-      const result = {
-         groups: []
-      };
-
-      for (var i = 0; i < events.length; ++i) {
-         if (events[i].betOffers != null && events[i].betOffers.length === 1) {
-            if (mappings.hasOwnProperty(events[i].betOffers[0].criterion.id)) {
-               result[mappings[events[i].betOffers[0].criterion.id]].push(events[i]);
-            }
-         }
-      }
-      return result;
-   }
 }
 
 export default KambiService;

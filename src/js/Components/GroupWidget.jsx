@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import { widgetModule } from 'kambi-widget-core-library';
 import { TabPagination, IconHeader } from 'kambi-widget-components';
 import BoxContainer from './BoxContainer/BoxContainer';
@@ -6,7 +6,7 @@ import CountryList from './CountryList/CountryList';
 import CountryListElement from './CountryList/CountryListElement/CountryListElement';
 import styles from './GroupWidget.scss';
 
-class GroupWidget extends React.Component {
+class GroupWidget extends Component {
 
    constructor(props) {
       super(props);
@@ -18,7 +18,6 @@ class GroupWidget extends React.Component {
     */
    componentDidMount() {
       widgetModule.adaptWidgetHeight();
-      console.log('props', this.props);
    }
 
    /**
@@ -26,43 +25,53 @@ class GroupWidget extends React.Component {
     */
    componentDidUpdate() {
       widgetModule.adaptWidgetHeight();
-      console.log('props', this.props);
    }
 
    render() {
-      const list = this.props.data;
+      const renderTab = idx => <div key={idx} className={styles.tab}>{this.props.groups[idx].groupName}</div>;
 
-      const renderTab = function (idx) {
-         return (<div key={idx} className={styles.element}>{list[idx].groupName}</div>);
-      };
-
-      return (<div>
-         <IconHeader
-            iconCSSClasses='KambiWidget-card-border-color'
-            iconPath='http://vector.stylove.com/images/small_1821.jpg'
-            title='WORLD CUP QUALIFYING - EUROPE'
-            subtitle='Group Winner' />
-         <BoxContainer>
-            <TabPagination renderTab={renderTab}>
-               { list.map((group, i) =>
-                  <div key={i}>
-                     <CountryList>
-                        { group.outcomes.map((outcome, j) =>
-                           (<CountryListElement
-                              key={j}
-                              flagUrl={'https://d1fqgomuxh4f5p.cloudfront.net/customcss/group-winner-widget/flags/' + outcome.participantId + '.svg'}
-                              country={outcome.label} value={parseFloat(outcome.oddsFractional)} />)) }
+      return (
+         <div>
+            <IconHeader
+               iconCSSClasses='KambiWidget-card-border-color'
+               iconPath='http://vector.stylove.com/images/small_1821.jpg'
+               title={this.props.title}
+               subtitle={this.props.tagline}
+            />
+            <BoxContainer>
+               <TabPagination
+                  renderTab={renderTab}
+                  selected={this.props.nextMatchGroupIdx}
+               >
+                  {this.props.groups.map((group, i) => (
+                     <CountryList key={i}>
+                        {group.betOffers[0].outcomes.map(outcome => (
+                           <CountryListElement
+                              key={outcome.id}
+                              flagUrl={`${this.props.flagUrl}${outcome.participantId}.svg`}
+                              country={outcome.label}
+                              outcome={outcome}
+                           />
+                        ))}
                      </CountryList>
-                  </div>)
-               }
-            </TabPagination>
-         </BoxContainer>
-      </div>);
+                  ))}
+               </TabPagination>
+            </BoxContainer>
+         </div>
+      );
    }
 }
 
+GroupWidget.defaultProps = {
+   nextMatchGroupIdx: 0
+};
+
 GroupWidget.propTypes = {
-   data: React.PropTypes.array
+   groups: PropTypes.array,
+   title: PropTypes.string,
+   tagline: PropTypes.string,
+   flagUrl: PropTypes.string,
+   nextMatchGroupIdx: PropTypes.number
 };
 
 export default GroupWidget;
