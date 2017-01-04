@@ -149,7 +149,7 @@ class Widget {
       ReactDOM.render(
          <GroupWidget
             groups={this.groups}
-            nextMatchGroupIdx={this.nextMatchGroupIdx}
+            selected={this.nextMatchGroupIdx}
             title={this.title}
             tagline={this.tagline}
             flagUrl={this.flagUrl}
