@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { widgetModule } from 'kambi-widget-core-library';
 import { IconHeader, TabPagination } from 'kambi-widget-components';
+import BlendedImage from './BlendedImage';
 import CountryList from './CountryList/CountryList';
 import CountryListElement from './CountryList/CountryListElement/CountryListElement';
 import styles from './GroupWidget.scss';
@@ -19,6 +20,10 @@ const onGroupClick = function(group) {
 
 class GroupWidget extends Component {
 
+   /**
+    * Constructs.
+    * @param {object} props Component properties
+    */
    constructor(props) {
       super(props);
       widgetModule.enableWidgetTransition(true);
@@ -38,17 +43,18 @@ class GroupWidget extends Component {
       widgetModule.adaptWidgetHeight();
    }
 
+   /**
+    * Renders widget.
+    * @returns {XML}
+    */
    render() {
       const renderTab = idx => <div key={idx} className={styles.tab}>{this.props.groups[idx].groupName}</div>;
 
       return (
          <div>
-            <IconHeader
-               iconCSSClasses='KambiWidget-card-border-color'
-               iconPath='http://vector.stylove.com/images/small_1821.jpg'
-               title={this.props.title}
-               subtitle={this.props.tagline}
-            />
+            <IconHeader title={this.props.title} subtitle={this.props.tagline}>
+               <BlendedImage imgPath='src/img/football.svg' />
+            </IconHeader>
             <TabPagination
                renderTab={renderTab}
                selected={this.props.selected}
@@ -102,6 +108,7 @@ GroupWidget.propTypes = {
     * Selected group index (default to 0)
     */
    selected: PropTypes.number
+
 };
 
 export default GroupWidget;

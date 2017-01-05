@@ -19,10 +19,27 @@ const CountryListElement = ({ country, outcome, flagUrl, onClick }) => {
 };
 
 CountryListElement.propTypes = {
-   country: PropTypes.node,
+
+   /**
+    * Country name
+    */
+   country: PropTypes.node.isRequired,
+
+   /**
+    * Country flag url
+    */
    flagUrl: PropTypes.string.isRequired,
+
+   /**
+    * Outcome for this country
+    */
    outcome: PropTypes.object.isRequired,
+
+   /**
+    * Row click callback
+    */
    onClick: PropTypes.func.isRequired
+
 };
 
 export default CountryListElement;

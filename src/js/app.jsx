@@ -3,15 +3,6 @@ import '../scss/app.scss';
 import KambiService from './Services/kambi';
 import Widget from './Widget';
 
-/**
- * Removes widget on fatal errors.
- * @param {Error} error Error instance
- */
-const onFatal = function(error) {
-   widgetModule.removeWidget();
-   throw error;
-};
-
 coreLibrary.init({
    filter: 'football/world_cup_qualifying_-_europe/all',
    title: null,
@@ -45,4 +36,7 @@ coreLibrary.init({
       removeWidget: widgetModule.removeWidget.bind(widgetModule)
    });
 })
-.catch(onFatal);
+.catch((error) => {
+   widgetModule.removeWidget();
+   throw error;
+});
