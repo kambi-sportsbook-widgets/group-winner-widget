@@ -2,18 +2,24 @@ import { OutcomeButton } from 'kambi-widget-components';
 import React, { PropTypes } from 'react';
 import styles from './CountryListElement.scss';
 
-const CountryListElement = ({ country, outcome, flagUrl, onClick }) => {
+const CountryListElement = ({ country, outcomes, flagUrl, onClick }) => {
    return (
       <tr className={styles.row}>
          <td className={styles.flag} onClick={onClick}>
-            <img role='presentation' src={flagUrl} />
+            {flagUrl &&
+               <img role='presentation' src={flagUrl} />}
          </td>
          <td className={styles.country} onClick={onClick}>
             {country}
          </td>
-         <td className={styles.button}>
-            <OutcomeButton outcome={outcome} label={false} />
-         </td>
+         {outcomes.map((outcome, i) =>
+            <td key={i} className={styles.button}>
+               <div className={styles.wrapper}>
+                  {outcome &&
+                     <OutcomeButton outcome={outcome} label={false} />}
+               </div>
+            </td>
+         )}
       </tr>
    );
 };
@@ -28,12 +34,12 @@ CountryListElement.propTypes = {
    /**
     * Country flag url
     */
-   flagUrl: PropTypes.string.isRequired,
+   flagUrl: PropTypes.string,
 
    /**
     * Outcome for this country
     */
-   outcome: PropTypes.object.isRequired,
+   outcomes: PropTypes.arrayOf(PropTypes.object).isRequired,
 
    /**
     * Row click callback

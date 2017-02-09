@@ -1,24 +1,28 @@
 :local(.row) {
-   display: flex;
-   align-items: center;
    height: 44px;
    cursor: pointer;
 
    :local(.flag) {
       line-height: 1;
       padding-right: 12px;
-      flex: 0 0 36px;
-      width: 24px;
-      height: 24px;
+      width: 36px;
+
+      img {
+         width: 24px;
+         height: 24px;
+      }
    }
 
    :local(.country) {
       font-size: 14px;
-      flex: 1;
    }
 
    :local(.button) {
-      flex: 0 0 80px;
-      display: flex;
+      width: 80px;
+      padding-left: 3px; // makes the space between outcome buttons 3px
+
+      :local(.wrapper) {
+         display: flex;
+      }
    }
 }

@@ -18,6 +18,38 @@ const onGroupClick = function(group) {
    }
 };
 
+/**
+ * Extracts participants list from given group.
+ * @param {object} group Group entity (Kambi API)
+ * @returns {{
+ *    id: number,
+ *    label: string,
+ *    outcomes: object[]
+ * }[]}
+ */
+const getParticipants = function(group) {
+   if (!group.betOffers.length) {
+      return [];
+   }
+
+   return group.betOffers[0].outcomes.map((outcome) => {
+      return {
+         id: outcome.participantId,
+         label: outcome.label,
+         outcomes: group.betOffers.map(betOffer => betOffer.outcomes.find(o => o.participantId == outcome.participantId))
+      };
+   });
+};
+
+/**
+ * Extracts bet offer names for given group.
+ * @param {object} group Given group (event entity)
+ * @returns {string[]}
+ */
+const getBetOfferNames = function(group) {
+   return group.betOffers.map(betOffer => betOffer.betOfferType.name);
+};
+
 class GroupWidget extends Component {
 
    /**
@@ -60,16 +92,19 @@ class GroupWidget extends Component {
                selected={this.props.selected}
             >
                {this.props.groups.map(group => (
-                  <CountryList key={group.event.id}>
-                     {group.betOffers[0].outcomes.map(outcome => (
+                  <CountryList
+                     key={group.event.id}
+                     betOfferNames={getBetOfferNames(group)}
+                  >
+                     {getParticipants(group).map(participant =>
                         <CountryListElement
-                           key={outcome.id}
-                           flagUrl={`${this.props.flagUrl}${outcome.participantId}.svg`}
-                           country={outcome.label}
-                           outcome={outcome}
+                           key={participant.id}
+                           flagUrl={this.props.flagUrl ? `${this.props.flagUrl}${participant.id}.svg` : null}
+                           country={participant.label}
+                           outcomes={participant.outcomes}
                            onClick={onGroupClick.bind(null, group)}
                         />
-                     ))}
+                     )}
                   </CountryList>
                ))}
             </TabPagination>

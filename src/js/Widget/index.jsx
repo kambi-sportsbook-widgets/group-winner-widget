@@ -13,7 +13,7 @@ class Widget {
     * Constructor
     * @param {string} filter Tournament filter
     * @param {number} criterionId Tournament criterion identifier
-    * @param {string} flagUrl Base URL of team's flags
+    * @param {string?} flagUrl Base URL of team's flags
     * @param {string?} title Widget title (will be figured out if omitted)
     * @param {string?} tagline Widget tag line (will be figured out if omitted)
     * @param {function} removeWidget Remove widget callback

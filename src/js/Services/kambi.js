@@ -1,39 +1,58 @@
 import { offeringModule } from 'kambi-widget-core-library'
+import Filter from './filter';
 
 class KambiService {
 
    /**
-    * Checks if given filter exists in current highlights.
-    * @param {string} filter Filter to check
+    * Returns first filter which exists in highlights.
+    * @param {string[]} filters Filters to match against
     * @returns {Promise.<boolean>}
     */
-   static existsInHighlights(filter) {
+   static getHighlightedFilter(filters) {
       return offeringModule.getHighlight()
          .then((response) => {
             // uncomment line below in order to test the widget
             // response.groups[0].pathTermId = '/football/world_cup_qualifying_-_europe';
 
-            const regex = new RegExp(`^/${filter.replace(/\/all/g, '')}(/all)*$`);
-            return !!response.groups.find(group => group.pathTermId.match(regex));
+            const sanitizedFilters = filters.map(Filter.sanitize);
+
+            return response.groups.reduce((filter, group) => {
+               if (filter) {
+                  return filter;
+               }
+
+               const idx = sanitizedFilters.indexOf(Filter.sanitize(group.pathTermId));
+
+               if (idx > -1) {
+                  return filters[idx];
+               }
+
+               return null;
+            }, null);
          });
    }
 
    /**
     * Fetches groups for given tournament.
     * @param {string} filter Tournament's filter
-    * @param {number} criterionId Tournament's criterion identifier
+    * @param {number} criterionId Tournament criterion identifier
     * @returns {Promise.<object[]>}
     */
    static getGroups(filter, criterionId) {
-      return offeringModule.getEventsByFilter(`${filter}/all/competitions/`)
-         .then((competitions) => {
-            return competitions.events
+      return offeringModule.getEventsByFilter(Filter.competitions(filter))
+         .then(competitions => Promise.all(competitions.events.map(event => offeringModule.getEvent(event.event.id))))
+         .then((events) => {
+            return events
 
-               // must have exactly one betoffer
-               .filter(event => event.betOffers != null && event.betOffers.length === 1)
+               .filter(event => event.betOffers)
 
-               // criterion must match
-               .filter(event => event.betOffers[0].criterion.id == criterionId)
+               .map((event) => {
+                  event.betOffers = event.betOffers.filter(betOffer => betOffer.criterion.id == criterionId);
+                  return event;
+               })
+
+               // must have any bet offers
+               .filter(event => event.betOffers.find(bo => bo))
 
                // set groupName
                .map((event) => {
@@ -56,7 +75,7 @@ class KambiService {
 
                // sort outcomes by odds value
                .map((group) => {
-                  group.betOffers[0].outcomes.sort((a, b) => a.odds - b.odds);
+                  group.betOffers.forEach(betOffer => betOffer.outcomes.sort((a, b) => a.odds - b.odds));
                   return group;
                });
          });
@@ -68,7 +87,7 @@ class KambiService {
     * @returns {Promise.<string|null>}
     */
    static getNextMatchHomeName(filter) {
-      return offeringModule.getEventsByFilter(`${filter}/all/matches/`)
+      return offeringModule.getEventsByFilter(Filter.matches(filter))
          .then((matches) => {
             const currentTime = Date.now();
 

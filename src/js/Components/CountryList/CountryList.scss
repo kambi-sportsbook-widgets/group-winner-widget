@@ -5,6 +5,16 @@
    animation: fadeIn ease-in 1;
    animation-duration: .2s;
 
+   :local(.row) {
+      :local(.flag) {
+         width: 36px;
+      }
+
+      :local(.button) {
+         width: 80px;
+      }
+   }
+
    @keyframes fadeIn {
       from {
          opacity: 0;
