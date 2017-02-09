@@ -9,7 +9,8 @@ coreLibrary.init({
       {
          filter: '/football/world_cup_qualifying_-_europe',
          criterionId: 1001615382,
-         flags: true
+         flags: true,
+         groupName: group => group.event.englishName.match(/ ([A-Z])$/)[1]
       },
       {
          filter: '/football/england/premier_league',
@@ -18,17 +19,17 @@ coreLibrary.init({
       },
       {
          filter: '/football/europa_league',
-         criterionId: null,
+         criterionId: 1001221607,
          flags: false
       },
       {
          filter: '/ice_hockey/nhl',
-         criterionId: null,
+         criterionId: 1001581538,
          flags: false
       },
       {
          filter: '/ice_hockey/sweden/shl',
-         criterionId: null,
+         criterionId: 1001581538,
          flags: false
       }
    ],
@@ -68,6 +69,7 @@ coreLibrary.init({
    const widget = new Widget({
       filter: config.filter,
       criterionId: config.criterionId,
+      groupNameFunc: config.groupName,
       title: coreLibrary.args.title,
       tagline: coreLibrary.args.tagline,
       flagUrl: config.flags ? coreLibrary.args.flagUrl : null,

@@ -35,10 +35,11 @@ class KambiService {
    /**
     * Fetches groups for given tournament.
     * @param {string} filter Tournament's filter
-    * @param {number} criterionId Tournament criterion identifier
+    * @param {number?} criterionId Tournament criterion identifier
+    * @param {function(object):string?} groupNameFunc Group name generator
     * @returns {Promise.<object[]>}
     */
-   static getGroups(filter, criterionId) {
+   static getGroups(filter, criterionId, groupNameFunc) {
       return offeringModule.getEventsByFilter(Filter.competitions(filter))
          .then(competitions => Promise.all(competitions.events.map(event => offeringModule.getEvent(event.event.id))))
          .then((events) => {
@@ -47,7 +48,13 @@ class KambiService {
                .filter(event => event.betOffers)
 
                .map((event) => {
-                  event.betOffers = event.betOffers.filter(betOffer => betOffer.criterion.id == criterionId);
+                  if (criterionId === null) {
+                     // pick first bet offer
+                     event.betOffers.splice(1);
+                  } else {
+                     event.betOffers = event.betOffers.filter(betOffer => betOffer.criterion.id == criterionId);
+                  }
+
                   return event;
                })
 
@@ -55,11 +62,7 @@ class KambiService {
                .filter(event => event.betOffers.find(bo => bo))
 
                // set groupName
-               .map((event) => {
-                  const groupName = event.event.englishName.split(' ');
-                  event.groupName = groupName[groupName.length - 1];
-                  return event;
-               })
+               .map(event => Object.assign(event, { groupName: groupNameFunc ? groupNameFunc(event) : event.event.englishName }))
 
                // sort based on groupName field
                .sort((a, b) => a.groupName.localeCompare(b.groupName))

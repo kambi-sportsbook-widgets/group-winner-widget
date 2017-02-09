@@ -12,7 +12,8 @@ class Widget {
    /**
     * Constructor
     * @param {string} filter Tournament filter
-    * @param {number} criterionId Tournament criterion identifier
+    * @param {number?} criterionId Tournament criterion identifier
+    * @param {function(object):string?} groupNameFunc Group name generation function
     * @param {string?} flagUrl Base URL of team's flags
     * @param {string?} title Widget title (will be figured out if omitted)
     * @param {string?} tagline Widget tag line (will be figured out if omitted)
@@ -20,8 +21,8 @@ class Widget {
     * @param {HTMLElement} rootEl Widget's DOM mount point
     */
    constructor({
-      filter, criterionId, flagUrl,
-      title, tagline, removeWidget,
+      filter, criterionId, groupNameFunc,
+      flagUrl, title, tagline, removeWidget,
       rootEl = document.getElementById('root'),
    }) {
       this.flagUrl = flagUrl;
@@ -33,7 +34,7 @@ class Widget {
       this.groups = [];
       this.nextMatchHomeName = null;
 
-      this.init(filter, criterionId)
+      this.init(filter, criterionId, groupNameFunc)
          .catch((error) => {
             console.error(error);
             this.removeWidget();
@@ -44,11 +45,12 @@ class Widget {
     * Initializes widget with data fetched from Kambi API.
     * @param {string} filter Tournament filter
     * @param {number} criterionId Tournament criterion identifier
+    * @param {function(object):string?} groupNameFunc Group name generation function
     * @returns {Promise}
     */
-   init(filter, criterionId) {
+   init(filter, criterionId, groupNameFunc) {
       return Promise.all([
-         KambiService.getGroups(filter, criterionId),
+         KambiService.getGroups(filter, criterionId, groupNameFunc),
          KambiService.getNextMatchHomeName(filter)
       ])
       .then(([groups, nextMatchHomeName]) => {
