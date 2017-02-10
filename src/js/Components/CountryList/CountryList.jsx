@@ -5,10 +5,10 @@ const CountryList = ({ children, betOfferNames }) => (
    <table className={styles.general}>
       <thead>
          <tr className={styles.row}>
-            <th className={styles.flag} />
+            <th />
             <th />
             {betOfferNames.map((betOfferName, i) =>
-               <th key={i} className={styles.button}>{betOfferName}</th>)}
+               <th key={i}>{betOfferName}</th>)}
          </tr>
       </thead>
       <tbody>{children}</tbody>
