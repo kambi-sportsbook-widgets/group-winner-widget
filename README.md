@@ -11,41 +11,43 @@ Arguments and default values:
 ```json
 ...
 {
-   filter: null,
-   supported: [
-      {
-         filter: '/football/world_cup_qualifying_-_europe',
-         criterionId: 1001615382,
-         flags: true
-      },
-      {
-         filter: '/football/england/premier_league',
-         criterionId: 1001221607,
-         flags: false
-      },
-      {
-         filter: '/football/europa_league',
-         criterionId: 1001221607,
-         flags: false
-      },
-      {
-         filter: '/ice_hockey/nhl',
-         criterionId: 1001581538,
-         flags: false
-      },
-      {
-         filter: '/ice_hockey/sweden/shl',
-         criterionId: 1001581538,
-         flags: false
-      }
-   ],
-   title: null,
-   tagline: null,
-   customCssUrl: 'https://d1fqgomuxh4f5p.cloudfront.net/customcss/match-overview-widget/{customer}/style.css',
-   customCssUrlFallback: 'https://d1fqgomuxh4f5p.cloudfront.net/customcss/match-overview-widget/kambi/style.css',
-   flagUrl: 'https://d1fqgomuxh4f5p.cloudfront.net/customcss/group-winner-widget/flags/',
-   pollingInterval: 30000,
-   widgetTrackingName: 'gm-group-winner-widget'
+   "args": {
+      "filter": null,
+      "supported": [
+         {
+            "filter": "/football/world_cup_qualifying_-_europe",
+            "criterionId": 1001615382,
+            "flags": true
+         },
+         {
+            "filter": "/football/england/premier_league",
+            "criterionId": 1001221607,
+            "flags": false
+         },
+         {
+            "filter": "/football/europa_league",
+            "criterionId": 1001221607,
+            "flags": false
+         },
+         {
+            "filter": "/ice_hockey/nhl",
+            "criterionId": 1001581538,
+            "flags": false
+         },
+         {
+            "filter": "/ice_hockey/sweden/shl",
+            "criterionId": 1001581538,
+            "flags": false
+         }
+      ],
+      "title": null,
+      "tagline": null,
+      "customCssUrl": "https://d1fqgomuxh4f5p.cloudfront.net/customcss/match-overview-widget/{customer}/style.css",
+      "customCssUrlFallback": "https://d1fqgomuxh4f5p.cloudfront.net/customcss/match-overview-widget/kambi/style.css",
+      "flagUrl": "https://d1fqgomuxh4f5p.cloudfront.net/customcss/group-winner-widget/flags/",
+      "pollingInterval": 30000,
+      "widgetTrackingName": "gm-group-winner-widget"
+   }
 },
 ...
 
