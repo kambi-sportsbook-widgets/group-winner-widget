@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { widgetModule } from 'kambi-widget-core-library';
-import { IconHeader, TabPagination } from 'kambi-widget-components';
+import { IconHeader, ScrolledList, TabPagination } from 'kambi-widget-components';
+import isMobile from '../Services/mobile';
 import BlendedImage from './BlendedImage';
 import CountryList from './CountryList/CountryList';
 import CountryListElement from './CountryList/CountryListElement/CountryListElement';
@@ -90,6 +91,7 @@ class GroupWidget extends Component {
             <TabPagination
                renderTab={renderTab}
                selected={this.props.selected}
+               renderTabList={args => <ScrolledList {...args} showControls={!isMobile()} />}
             >
                {this.props.groups.map(group => (
                   <CountryList

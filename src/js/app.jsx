@@ -42,7 +42,7 @@ coreLibrary.init({
    widgetTrackingName: 'gm-group-winner-widget',
 })
 .then(() => {
-   coreLibrary.setWidgetTrackingName(coreLibrary.args.widgetTrackingName);
+   coreLibrary.widgetTrackingName = coreLibrary.args.widgetTrackingName;
    eventsModule.liveEventPollingInterval = coreLibrary.args.pollingInterval;
 
    // use explicitly given filter
