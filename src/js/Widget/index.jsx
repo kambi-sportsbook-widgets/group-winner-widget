@@ -75,7 +75,7 @@ class Widget {
     */
    get nextMatchGroupIdx() {
       if (!this.nextMatchHomeName) {
-         return null;
+         return this.groups.length > 0 ? 0 : null;
       }
 
       for (let i = 0; i < this.groups.length; i++) {
