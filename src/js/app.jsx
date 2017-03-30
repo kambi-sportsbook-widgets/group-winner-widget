@@ -4,37 +4,10 @@ import KambiService from './Services/kambi';
 import Widget from './Widget';
 
 coreLibrary.init({
-   filter: null,
-   supported: [
-      {
-         filter: '/football/world_cup_qualifying_-_europe',
-         criterionId: 1001615382,
-         flags: true,
-         groupName: group => group.event.englishName.match(/ ([A-Z])$/)[1]
-      },
-      {
-         filter: '/football/england/premier_league',
-         criterionId: 1001221607,
-         flags: false
-      },
-      {
-         filter: '/football/europa_league',
-         criterionId: 1001221607,
-         flags: false
-      },
-      {
-         filter: '/ice_hockey/nhl',
-         criterionId: 1001581538,
-         flags: false
-      },
-      {
-         filter: '/ice_hockey/sweden/shl',
-         criterionId: 1001581538,
-         flags: false
-      }
-   ],
+   filter: 'football/world_cup_qualifying_-_europe/all',
    title: null,
    tagline: null,
+   criterionId: 1001615382,
    customCssUrl: 'https://d1fqgomuxh4f5p.cloudfront.net/customcss/match-overview-widget/{customer}/style.css',
    customCssUrlFallback: 'https://d1fqgomuxh4f5p.cloudfront.net/customcss/match-overview-widget/kambi/style.css',
    flagUrl: 'https://d1fqgomuxh4f5p.cloudfront.net/customcss/group-winner-widget/flags/',
@@ -45,34 +18,21 @@ coreLibrary.init({
    coreLibrary.widgetTrackingName = coreLibrary.args.widgetTrackingName;
    eventsModule.liveEventPollingInterval = coreLibrary.args.pollingInterval;
 
-   // use explicitly given filter
-   if (coreLibrary.args.filter) {
-      return {
-         filter: coreLibrary.args.filter,
-         criterionId: null,
-         flags: false
-      };
-   }
-
-   // use one of the supported filters which is the first found in highlights resource
-   return KambiService
-      .getHighlightedFilter(coreLibrary.args.supported.map(({ filter }) => filter))
-      .then(highlighted => (highlighted ? coreLibrary.args.supported.find(({ filter }) => filter == highlighted) : null));
+   return KambiService.existsInHighlights(coreLibrary.args.filter);
 })
-.then((config) => {
-   if (!config) {
-      console.error('No matching filters in highlight resource');
+.then((existsInHighlights) => {
+   if (!existsInHighlights) {
+      console.error(`Filter: ${coreLibrary.args.filter} does not exist in the highlight resource`);
       widgetModule.removeWidget();
       return;
    }
 
    const widget = new Widget({
-      filter: config.filter,
-      criterionId: config.criterionId,
-      groupNameFunc: config.groupName,
+      filter: coreLibrary.args.filter,
+      criterionId: coreLibrary.args.criterionId,
       title: coreLibrary.args.title,
       tagline: coreLibrary.args.tagline,
-      flagUrl: config.flags ? coreLibrary.args.flagUrl : null,
+      flagUrl: coreLibrary.args.flagUrl,
       removeWidget: widgetModule.removeWidget.bind(widgetModule)
    });
 })

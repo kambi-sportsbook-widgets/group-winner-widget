@@ -1,68 +1,46 @@
 import { offeringModule } from 'kambi-widget-core-library'
-import Filter from './filter';
 
 class KambiService {
 
    /**
-    * Returns first filter which exists in highlights.
-    * @param {string[]} filters Filters to match against
+    * Checks if given filter exists in current highlights.
+    * @param {string} filter Filter to check
     * @returns {Promise.<boolean>}
     */
-   static getHighlightedFilter(filters) {
+   static existsInHighlights(filter) {
       return offeringModule.getHighlight()
          .then((response) => {
             // uncomment line below in order to test the widget
             // response.groups[0].pathTermId = '/football/world_cup_qualifying_-_europe';
 
-            const sanitizedFilters = filters.map(Filter.sanitize);
-
-            return response.groups.reduce((filter, group) => {
-               if (filter) {
-                  return filter;
-               }
-
-               const idx = sanitizedFilters.indexOf(Filter.sanitize(group.pathTermId));
-
-               if (idx > -1) {
-                  return filters[idx];
-               }
-
-               return null;
-            }, null);
+            const regex = new RegExp(`^/${filter.replace(/\/all/g, '')}(/all)*$`);
+            return !!response.groups.find(group => group.pathTermId.match(regex));
          });
    }
 
    /**
     * Fetches groups for given tournament.
     * @param {string} filter Tournament's filter
-    * @param {number?} criterionId Tournament criterion identifier
-    * @param {function(object):string?} groupNameFunc Group name generator
+    * @param {number} criterionId Tournament's criterion identifier
     * @returns {Promise.<object[]>}
     */
-   static getGroups(filter, criterionId, groupNameFunc) {
-      return offeringModule.getEventsByFilter(Filter.competitions(filter))
-         .then(competitions => Promise.all(competitions.events.map(event => offeringModule.getEvent(event.event.id))))
-         .then((events) => {
-            return events
+   static getGroups(filter, criterionId) {
+      return offeringModule.getEventsByFilter(`${filter}/all/competitions/`)
+         .then((competitions) => {
+            return competitions.events
 
-               .filter(event => event.betOffers)
+               // must have exactly one betoffer
+               .filter(event => event.betOffers != null && event.betOffers.length === 1)
 
-               .map((event) => {
-                  if (criterionId === null) {
-                     // pick first bet offer
-                     event.betOffers.splice(1);
-                  } else {
-                     event.betOffers = event.betOffers.filter(betOffer => betOffer.criterion.id == criterionId);
-                  }
-
-                  return event;
-               })
-
-               // must have any bet offers
-               .filter(event => event.betOffers.find(bo => bo))
+               // criterion must match
+               .filter(event => event.betOffers[0].criterion.id == criterionId)
 
                // set groupName
-               .map(event => Object.assign(event, { groupName: groupNameFunc ? groupNameFunc(event) : event.event.englishName }))
+               .map((event) => {
+                  const groupName = event.event.englishName.split(' ');
+                  event.groupName = groupName[groupName.length - 1];
+                  return event;
+               })
 
                // sort based on groupName field
                .sort((a, b) => a.groupName.localeCompare(b.groupName))
@@ -78,7 +56,7 @@ class KambiService {
 
                // sort outcomes by odds value
                .map((group) => {
-                  group.betOffers.forEach(betOffer => betOffer.outcomes.sort((a, b) => a.odds - b.odds));
+                  group.betOffers[0].outcomes.sort((a, b) => a.odds - b.odds);
                   return group;
                });
          });
@@ -90,7 +68,7 @@ class KambiService {
     * @returns {Promise.<string|null>}
     */
    static getNextMatchHomeName(filter) {
-      return offeringModule.getEventsByFilter(Filter.matches(filter))
+      return offeringModule.getEventsByFilter(`${filter}/all/matches/`)
          .then((matches) => {
             const currentTime = Date.now();
 
