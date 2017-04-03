@@ -10,11 +10,9 @@ class KambiService {
    static existsInHighlights(filter) {
       return offeringModule.getHighlight()
          .then((response) => {
-            // uncomment line below in order to test the widget
-            // response.groups[0].pathTermId = '/football/world_cup_qualifying_-_europe';
-
-            const regex = new RegExp(`^/${filter.replace(/\/all/g, '')}(/all)*$`);
-            return !!response.groups.find(group => group.pathTermId.match(regex));
+            return !!response.groups.find(group => group.pathTermId.match(
+               new RegExp(`^/${filter.replace(/\/all/g, '')}(/all)*$`)
+            ));
          });
    }
 

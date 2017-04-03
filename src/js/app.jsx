@@ -8,6 +8,7 @@ coreLibrary.init({
    title: null,
    tagline: null,
    criterionId: 1001615382,
+   skipHighlightsCheck: false,
    customCssUrl: 'https://d1fqgomuxh4f5p.cloudfront.net/customcss/match-overview-widget/{customer}/style.css',
    customCssUrlFallback: 'https://d1fqgomuxh4f5p.cloudfront.net/customcss/match-overview-widget/kambi/style.css',
    flagUrl: 'https://d1fqgomuxh4f5p.cloudfront.net/customcss/group-winner-widget/flags/',
@@ -18,7 +19,9 @@ coreLibrary.init({
    coreLibrary.widgetTrackingName = coreLibrary.args.widgetTrackingName;
    eventsModule.liveEventPollingInterval = coreLibrary.args.pollingInterval;
 
-   return KambiService.existsInHighlights(coreLibrary.args.filter);
+   return coreLibrary.args.skipHighlightsCheck
+      ? true
+      : KambiService.existsInHighlights(coreLibrary.args.filter);
 })
 .then((existsInHighlights) => {
    if (!existsInHighlights) {
