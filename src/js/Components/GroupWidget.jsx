@@ -54,7 +54,7 @@ class GroupWidget extends Component {
       return (
          <div>
             <IconHeader title={this.props.title} subtitle={this.props.tagline}>
-               <BlendedImage imgPath='src/assets/football.svg' />
+               <BlendedImage imgPath='assets/football.svg' />
             </IconHeader>
             <TabPagination
                renderTab={renderTab}
