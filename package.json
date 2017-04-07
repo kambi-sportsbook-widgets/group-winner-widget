@@ -1,7 +1,7 @@
 {
-  "name": "head-to-head-widget",
+  "name": "group-winner-widget",
   "version": "1.1.6",
-  "description": "Head to Head Widget",
+  "description": "Group Winner Widget",
   "main": "dist/index.html",
   "scripts": {
     "clean": "kambi-widgets-cli clean",
@@ -14,7 +14,7 @@
     "test": "kambi-widgets-cli test"
   },
   "dependencies": {
-    "kambi-widget-components": "1.13.2",
+    "kambi-widget-components": "1.13.5",
     "kambi-widget-core-library": "3.7.1",
     "react": "^15.4.1",
     "react-dom": "^15.4.1"
@@ -24,11 +24,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/kambi-sportsbook-widgets/head-to-head-widget.git"
+    "url": "git+ssh://git@github.com/kambi-sportsbook-widgets/group-winner-widget.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kambi-sportsbook-widgets/head-to-head-widget/issues"
+    "url": "https://github.com/kambi-sportsbook-widgets/group-winner-widget/issues"
   },
-  "homepage": "https://github.com/kambi-sportsbook-widgets/head-to-head-widget#readme"
+  "homepage": "https://github.com/kambi-sportsbook-widgets/group-winner-widget#readme"
 }
