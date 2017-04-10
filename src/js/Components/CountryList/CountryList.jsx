@@ -2,9 +2,9 @@ import React, { PropTypes } from 'react';
 import styles from './CountryList.scss';
 
 const CountryList = ({ children }) => (
-   <table className={styles.general}>
-      <tbody>{children}</tbody>
-   </table>
+   <ul className={styles.general}>
+      {children}
+   </ul>
 );
 
 CountryList.propTypes = {

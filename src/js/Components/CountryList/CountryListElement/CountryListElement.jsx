@@ -4,17 +4,17 @@ import styles from './CountryListElement.scss';
 
 const CountryListElement = ({ country, outcome, flagUrl, onClick }) => {
    return (
-      <tr className={styles.row}>
-         <td className={styles.flag} onClick={onClick}>
+      <li className={styles.row}>
+         <div className={styles.flag} onClick={onClick}>
             <img role='presentation' src={flagUrl} />
-         </td>
-         <td className={styles.country} onClick={onClick}>
+         </div>
+         <div className={styles.country} onClick={onClick}>
             {country}
-         </td>
-         <td className={styles.button}>
+         </div>
+         <div className={styles.button}>
             <OutcomeButton outcome={outcome} label={false} />
-         </td>
-      </tr>
+         </div>
+      </li>
    );
 };
 
