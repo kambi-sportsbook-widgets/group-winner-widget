@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`kambi.getGroups() finds next match team name correctly 1`] = `
+Array [
+  Object {
+    "betOffers": Array [
+      Object {
+        "criterion": Object {
+          "id": 100,
+        },
+        "live": true,
+        "outcomes": Array [
+          Object {
+            "odds": 10,
+          },
+          Object {
+            "odds": 20,
+          },
+        ],
+      },
+    ],
+    "event": Object {
+      "englishName": "ATestPart1 ATestPart2",
+    },
+    "groupName": "ATestPart2",
+  },
+  Object {
+    "betOffers": Array [
+      Object {
+        "criterion": Object {
+          "id": 100,
+        },
+        "outcomes": Array [
+          Object {
+            "odds": 10,
+          },
+          Object {
+            "odds": 20,
+          },
+        ],
+      },
+    ],
+    "event": Object {
+      "englishName": "BTestPart1 BTestPart2",
+    },
+    "groupName": "BTestPart2",
+  },
+]
+`;

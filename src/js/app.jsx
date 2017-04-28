@@ -31,13 +31,16 @@ coreLibrary.init({
    }
 
    const widget = new Widget({
-      filter: coreLibrary.args.filter,
-      criterionId: coreLibrary.args.criterionId,
       title: coreLibrary.args.title,
       tagline: coreLibrary.args.tagline,
       flagUrl: coreLibrary.args.flagUrl,
       removeWidget: widgetModule.removeWidget.bind(widgetModule)
    });
+
+   return widget.init(
+      coreLibrary.args.filter,
+      coreLibrary.args.criterionId
+   );
 })
 .catch((error) => {
    widgetModule.removeWidget();

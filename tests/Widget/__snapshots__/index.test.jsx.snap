@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Widget.init() removes itself when there is no groups 1`] = `"No tournament groups found, widget removing itself"`;

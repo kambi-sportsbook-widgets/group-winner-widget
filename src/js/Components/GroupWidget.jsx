@@ -92,19 +92,19 @@ GroupWidget.propTypes = {
    groups: PropTypes.array.isRequired,
 
    /**
-    * Widget's title. Will be figured out if not provided explicitly.
+    * Widget's title
     */
-   title: PropTypes.string,
+   title: PropTypes.string.isRequired,
 
    /**
-    * Widget's tag line. Will be figured out if not provided explicitly.
+    * Widget's tag line
     */
-   tagline: PropTypes.string,
+   tagline: PropTypes.string.isRequired,
 
    /**
     * Base URL of country flags
     */
-   flagUrl: PropTypes.string,
+   flagUrl: PropTypes.string.isRequired,
 
    /**
     * Selected group index (default to 0)

@@ -28,7 +28,7 @@ class KambiService {
             return competitions.events
 
                // must have exactly one betoffer
-               .filter(event => event.betOffers != null && event.betOffers.length === 1)
+               .filter(event => event.betOffers && event.betOffers.length === 1)
 
                // criterion must match
                .filter(event => event.betOffers[0].criterion.id == criterionId)
@@ -71,7 +71,7 @@ class KambiService {
             const currentTime = Date.now();
 
             return matches.events
-               .filter(m => m.event.type === 'ET_MATCH' && m.event.start != null && m.event.start > currentTime)
+               .filter(m => m.event.type === 'ET_MATCH' && m.event.start && m.event.start > currentTime)
                .sort((a, b) => a.event.start - b.event.start);
          })
          .then(matches => (matches.length > 0 ? matches[0].event.homeName : null));

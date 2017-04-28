@@ -11,8 +11,6 @@ class Widget {
 
    /**
     * Constructor
-    * @param {string} filter Tournament filter
-    * @param {number} criterionId Tournament criterion identifier
     * @param {string} flagUrl Base URL of team's flags
     * @param {string?} title Widget title (will be figured out if omitted)
     * @param {string?} tagline Widget tag line (will be figured out if omitted)
@@ -20,8 +18,7 @@ class Widget {
     * @param {HTMLElement} rootEl Widget's DOM mount point
     */
    constructor({
-      filter, criterionId, flagUrl,
-      title, tagline, removeWidget,
+      flagUrl, title, tagline, removeWidget,
       rootEl = document.getElementById('root'),
    }) {
       this.flagUrl = flagUrl;
@@ -32,12 +29,6 @@ class Widget {
 
       this.groups = [];
       this.nextMatchHomeName = null;
-
-      this.init(filter, criterionId)
-         .catch((error) => {
-            console.error(error);
-            this.removeWidget();
-         });
    }
 
    /**
@@ -71,22 +62,22 @@ class Widget {
 
    /**
     * Holds team's home name of closest tournament's match.
-    * @returns {string|null}
+    * @returns {number|null}
     */
    get nextMatchGroupIdx() {
       if (!this.nextMatchHomeName) {
-         return this.groups.length > 0 ? 0 : null;
+         return 0;
       }
 
       for (let i = 0; i < this.groups.length; i++) {
-         const outcome = this.groups[i].betOffers[0].outcomes.find(outcome => outcome.label == this.nextMatchHomeName);
+         const outcome = this.groups[i].betOffers[0].outcomes.find(outcome => outcome.label === this.nextMatchHomeName);
 
          if (outcome) {
             return i;
          }
       }
 
-      return null;
+      return 0;
    }
 
    /**
@@ -98,7 +89,7 @@ class Widget {
          return this.forcedTitle;
       }
 
-      return this.groups.length > 0 ? this.groups[0].event.group : null;
+      return this.groups[0].event.group;
    }
 
    /**
@@ -110,7 +101,7 @@ class Widget {
          return this.forcedTagline;
       }
 
-      return this.groups.length > 0 ? this.groups[0].betOffers[0].criterion.label : null
+      return this.groups[0].betOffers[0].criterion.label
    }
 
    /**
@@ -137,6 +128,7 @@ class Widget {
       eventsModule.subscribe(`LIVE:EVENT:${group.event.id}`, (liveEvent) => {
          liveEvent.betOffers[0].outcomes.sort((a, b) => a.odds - b.odds);
          group.betOffers = liveEvent.betOffers;
+         this.render();
       });
 
       eventsModule.subscribe(`LIVE:EVENT:${group.event.id}:REMOVED`, this.removeGroup.bind(this, group));

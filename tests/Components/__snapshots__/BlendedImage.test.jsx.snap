@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BlendedImage.render() renders correctly with default props 1`] = `
+<svg
+  className="general"
+  xmlnsXlink="http://www.w3.org/1999/xlink\\" xmlns=\\"http://www.w3.org/2000/svg"
+>
+  <defs>
+    <mask
+      id="svgmask2"
+    >
+      <image
+        height="100%"
+        width="100%"
+        xlinkHref="test/image/path.jpg"
+      />
+    </mask>
+  </defs>
+  <rect
+    height="100%"
+    id="blendRect"
+    mask="url(#svgmask2)"
+    width="100%"
+    x="0"
+    y="0"
+  />
+</svg>
+`;

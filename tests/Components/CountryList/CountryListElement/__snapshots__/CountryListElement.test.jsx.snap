@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CountryListElement.render() renders correctly 1`] = `
+<li
+  className="row"
+>
+  <div
+    className="flag"
+    onClick={[Function]}
+  >
+    <img
+      role="presentation"
+      src="url/to/flag/on/poland.jpg"
+    />
+  </div>
+  <div
+    className="country"
+    onClick={[Function]}
+  >
+    Poland!
+  </div>
+  <div
+    className="button"
+  >
+    <OutcomeButton
+      label={false}
+      outcome={
+        Object {
+          "id": 100,
+        }
+      }
+    />
+  </div>
+</li>
+`;
