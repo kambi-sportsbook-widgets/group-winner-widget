@@ -63,9 +63,9 @@ describe('kambi.getGroups()', () => {
                { betOffers: [] },
                { betOffers: [ {}, {} ] },
                { betOffers: [ { criterion: { id: 200 } } ]},
-               { betOffers: [ { criterion: { id: 100 }, outcomes: [{odds: 20}, {odds: 10}] } ], event: { englishName: 'BTestPart1 BTestPart2' }},
-               { betOffers: [ { criterion: { id: 100 }, outcomes: [{odds: 20}, {odds: 10}] } ], event: { englishName: 'ATestPart1 ATestPart2' }},
-               { betOffers: [ { criterion: { id: 100 }, live: true, outcomes: [{odds: 20}, {odds: 10}] } ], event: { englishName: 'ATestPart1 ATestPart2' }}
+               { betOffers: [ { criterion: { id: 100 }, outcomes: [{odds: 20}, {odds: 10}] } ], event: { englishName: 'Group A (World Cup Qualification UEFA 2018)' }},
+               { betOffers: [ { criterion: { id: 100 }, outcomes: [{odds: 20}, {odds: 10}] } ], event: { englishName: '(World Cup Qualification UEFA 2018) Group B' }},
+               { betOffers: [ { criterion: { id: 100 }, live: true, outcomes: [{odds: 20}, {odds: 10}] } ], event: { englishName: '(World Cup Qualification UEFA 2018) Group C (World Cup Qualification UEFA 2018)' }}
             ]
          })));
 
@@ -75,6 +75,20 @@ describe('kambi.getGroups()', () => {
             expect(offeringModule.getEventsByFilter).toHaveBeenCalledTimes(1);
             expect(offeringModule.getEventsByFilter).toHaveBeenCalledWith('test/all/competitions/');
          });
+   });
+
+   it('throws exception when group name cannot be found', () => {
+      offeringModule.getEventsByFilter = jest.fn(() => new Promise(resolve =>
+         resolve({
+            events: [
+               { betOffers: [ { criterion: { id: 100 }, outcomes: [{odds: 20}, {odds: 10}] } ], event: { englishName: 'group A (World Cup Qualification UEFA 2018)' }}
+            ]
+         })));
+
+      expect.assertions(1);
+
+      return kambi.getGroups('test', 100)
+         .catch(e => expect(e).toMatchSnapshot());
    });
 
 });

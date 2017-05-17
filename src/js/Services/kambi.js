@@ -35,8 +35,14 @@ class KambiService {
 
                // set groupName
                .map((event) => {
-                  const groupName = event.event.englishName.split(' ');
-                  event.groupName = groupName[groupName.length - 1];
+                  const matches = event.event.englishName.match(/Group ([A-Z])/);
+
+                  if (!matches) {
+                     throw new Error(`Cannot extract group letter from: ${event.event.englishName}`);
+                  }
+
+                  event.groupName = matches[1];
+
                   return event;
                })
 

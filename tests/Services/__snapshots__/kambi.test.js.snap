@@ -8,7 +8,6 @@ Array [
         "criterion": Object {
           "id": 100,
         },
-        "live": true,
         "outcomes": Array [
           Object {
             "odds": 10,
@@ -20,9 +19,9 @@ Array [
       },
     ],
     "event": Object {
-      "englishName": "ATestPart1 ATestPart2",
+      "englishName": "Group A (World Cup Qualification UEFA 2018)",
     },
-    "groupName": "ATestPart2",
+    "groupName": "A",
   },
   Object {
     "betOffers": Array [
@@ -41,9 +40,33 @@ Array [
       },
     ],
     "event": Object {
-      "englishName": "BTestPart1 BTestPart2",
+      "englishName": "(World Cup Qualification UEFA 2018) Group B",
     },
-    "groupName": "BTestPart2",
+    "groupName": "B",
+  },
+  Object {
+    "betOffers": Array [
+      Object {
+        "criterion": Object {
+          "id": 100,
+        },
+        "live": true,
+        "outcomes": Array [
+          Object {
+            "odds": 10,
+          },
+          Object {
+            "odds": 20,
+          },
+        ],
+      },
+    ],
+    "event": Object {
+      "englishName": "(World Cup Qualification UEFA 2018) Group C (World Cup Qualification UEFA 2018)",
+    },
+    "groupName": "C",
   },
 ]
 `;
+
+exports[`kambi.getGroups() throws exception when group name cannot be found 1`] = `[Error: Cannot extract group letter from: group A (World Cup Qualification UEFA 2018)]`;
