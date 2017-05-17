@@ -179,10 +179,6 @@ describe('GroupWidget height and transition', () => {
    });
 
    it('updates correctly', () => {
-      const ref = (el) => {
-         el.setProp('selected', 1);
-      };
-
       expect(widgetModule.adaptWidgetHeight).not.toHaveBeenCalled();
 
       const wrapper = mount(
@@ -196,7 +192,7 @@ describe('GroupWidget height and transition', () => {
 
       expect(widgetModule.adaptWidgetHeight).toHaveBeenCalledTimes(1);
 
-      wrapper.setProps({selected: 1});
+      wrapper.find('ItemContainer').first().simulate('click');
 
       expect(widgetModule.adaptWidgetHeight).toHaveBeenCalledTimes(2);
    });

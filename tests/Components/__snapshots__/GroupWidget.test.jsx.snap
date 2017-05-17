@@ -11,6 +11,7 @@ exports[`GroupWidget.render() renders correctly with default props 1`] = `
     />
   </IconHeader>
   <TabPagination
+    onTabChange={[Function]}
     renderTab={[Function]}
     renderTabList={[Function]}
     selected={0}
@@ -31,6 +32,7 @@ exports[`GroupWidget.render() renders correctly with groups 1`] = `
     />
   </IconHeader>
   <TabPagination
+    onTabChange={[Function]}
     renderTab={[Function]}
     renderTabList={[Function]}
     selected={0}
@@ -102,6 +104,7 @@ exports[`GroupWidget.render() renders correctly with initially selected group 1`
     />
   </IconHeader>
   <TabPagination
+    onTabChange={[Function]}
     renderTab={[Function]}
     renderTabList={[Function]}
     selected={1}

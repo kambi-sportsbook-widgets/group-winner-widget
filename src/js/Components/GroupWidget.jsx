@@ -19,6 +19,14 @@ const onGroupClick = function(group) {
    }
 };
 
+/**
+ * Called after switching the group.
+ * @param {number} idx Group index
+ */
+const onGroupChange = function(idx) {
+   widgetModule.adaptWidgetHeight();
+};
+
 class GroupWidget extends Component {
 
    /**
@@ -38,13 +46,6 @@ class GroupWidget extends Component {
    }
 
    /**
-    * Called after updating component's DOM.
-    */
-   componentDidUpdate() {
-      widgetModule.adaptWidgetHeight();
-   }
-
-   /**
     * Renders widget.
     * @returns {XML}
     */
@@ -60,6 +61,7 @@ class GroupWidget extends Component {
                renderTab={renderTab}
                selected={this.props.selected}
                renderTabList={args => <ScrolledList {...args} showControls={!isMobile()} />}
+               onTabChange={onGroupChange}
             >
                {this.props.groups.map(group => (
                   <CountryList key={group.event.id}>
