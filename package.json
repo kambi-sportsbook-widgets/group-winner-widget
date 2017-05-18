@@ -1,6 +1,6 @@
 {
   "name": "group-winner-widget",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Group Winner Widget",
   "main": "dist/index.html",
   "scripts": {
