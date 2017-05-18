@@ -72,6 +72,8 @@ const mockGroups = [
    }
 ];
 
+jest.useFakeTimers();
+
 describe('GroupWidget.render()', () => {
 
    beforeEach(() => {
@@ -193,6 +195,8 @@ describe('GroupWidget height and transition', () => {
       expect(widgetModule.adaptWidgetHeight).toHaveBeenCalledTimes(1);
 
       wrapper.find('ItemContainer').first().simulate('click');
+
+      jest.runOnlyPendingTimers();
 
       expect(widgetModule.adaptWidgetHeight).toHaveBeenCalledTimes(2);
    });
