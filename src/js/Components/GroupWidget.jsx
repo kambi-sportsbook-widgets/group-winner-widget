@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { widgetModule } from 'kambi-widget-core-library';
 import { IconHeader, ScrolledList, TabPagination } from 'kambi-widget-components';
 import isMobile from '../Services/mobile';

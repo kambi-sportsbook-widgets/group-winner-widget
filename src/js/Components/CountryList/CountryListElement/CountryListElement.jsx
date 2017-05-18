@@ -1,5 +1,6 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import { OutcomeButton } from 'kambi-widget-components';
-import React, { PropTypes } from 'react';
 import styles from './CountryListElement.scss';
 
 const CountryListElement = ({ country, outcome, flagUrl, onClick }) => {
