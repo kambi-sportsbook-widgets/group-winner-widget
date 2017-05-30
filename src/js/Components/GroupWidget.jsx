@@ -69,7 +69,7 @@ class GroupWidget extends Component {
                      {group.betOffers[0].outcomes.map(outcome => (
                         <CountryListElement
                            key={outcome.id}
-                           flagUrl={`${this.props.flagUrl}${outcome.participantId}.svg`}
+                           flagUrl={`assets/flags/${outcome.participantId}.svg`}
                            country={outcome.label}
                            outcome={outcome}
                            onClick={onGroupClick.bind(null, group)}
@@ -103,11 +103,6 @@ GroupWidget.propTypes = {
     * Widget's tag line
     */
    tagline: PropTypes.string.isRequired,
-
-   /**
-    * Base URL of country flags
-    */
-   flagUrl: PropTypes.string.isRequired,
 
    /**
     * Selected group index (default to 0)

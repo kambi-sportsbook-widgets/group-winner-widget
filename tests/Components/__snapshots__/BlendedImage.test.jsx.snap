@@ -17,8 +17,8 @@ exports[`BlendedImage.render() renders correctly with default props 1`] = `
     </mask>
   </defs>
   <rect
+    className="KambiWidget-primary-color blendRect"
     height="100%"
-    id="blendRect"
     mask="url(#svgmask2)"
     width="100%"
     x="0"

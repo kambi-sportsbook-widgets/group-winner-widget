@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#ED1C24;}
+	.st1{enable-background:new    ;}
+	.st2{clip-path:url(#SVGID_2_);}
+	.st3{clip-path:url(#SVGID_4_);fill:#FFFFFF;}
+	.st4{clip-path:url(#SVGID_6_);}
+	.st5{clip-path:url(#SVGID_8_);fill:#FFFFFF;}
+</style>
+<g id="Turkey">
+	<circle class="st0" cx="12" cy="12" r="12"/>
+	<g class="st1">
+		<g>
+			<g>
+				<defs>
+					<polygon id="SVGID_1_" points="14.5,9.9 15.3,11 16.6,10.6 15.8,11.7 16.5,12.8 15.3,12.3 14.4,13.4 14.5,12.1 13.2,11.6 
+						14.5,11.2 					"/>
+				</defs>
+				<clipPath id="SVGID_2_">
+					<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+				</clipPath>
+				<g class="st2">
+					<defs>
+						<rect id="SVGID_3_" y="-0.5" width="24" height="25"/>
+					</defs>
+					<clipPath id="SVGID_4_">
+						<use xlink:href="#SVGID_3_"  style="overflow:visible;"/>
+					</clipPath>
+					<rect x="8.2" y="4.9" class="st3" width="13.4" height="13.6"/>
+				</g>
+			</g>
+			<g>
+				<defs>
+					<path id="SVGID_5_" d="M6.2,11.5c0-2.6,2.1-4.6,4.6-4.6c1,0,1.8,0.3,2.6,0.8c-1.1-1.2-2.6-2-4.4-2c-3.2,0-5.8,2.6-5.8,5.8
+						s2.6,5.8,5.8,5.8c1.7,0,3.3-0.8,4.4-2c-0.7,0.5-1.6,0.8-2.6,0.8C8.3,16.1,6.2,14.1,6.2,11.5"/>
+				</defs>
+				<clipPath id="SVGID_6_">
+					<use xlink:href="#SVGID_5_"  style="overflow:visible;"/>
+				</clipPath>
+				<g class="st4">
+					<defs>
+						<rect id="SVGID_7_" y="-0.5" width="24" height="25"/>
+					</defs>
+					<clipPath id="SVGID_8_">
+						<use xlink:href="#SVGID_7_"  style="overflow:visible;"/>
+					</clipPath>
+					<rect x="-1.8" y="0.7" class="st5" width="20.2" height="21.7"/>
+				</g>
+			</g>
+		</g>
+	</g>
+</g>
+</svg>

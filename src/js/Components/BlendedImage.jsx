@@ -9,7 +9,7 @@ const BlendedImage = ({ imgPath }) => (
             <image width='100%' height='100%' xlinkHref={imgPath} />
          </mask>
       </defs>
-      <rect mask='url(#svgmask2)' id='blendRect' x='0' y='0' width='100%' height='100%' />
+      <rect mask='url(#svgmask2)' className={`KambiWidget-primary-color ${styles.blendRect}`} x='0' y='0' width='100%' height='100%' />
    </svg>
 );
 

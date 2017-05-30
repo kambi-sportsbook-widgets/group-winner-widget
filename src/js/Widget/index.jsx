@@ -11,17 +11,15 @@ class Widget {
 
    /**
     * Constructor
-    * @param {string} flagUrl Base URL of team's flags
     * @param {string?} title Widget title (will be figured out if omitted)
     * @param {string?} tagline Widget tag line (will be figured out if omitted)
     * @param {function} removeWidget Remove widget callback
     * @param {HTMLElement} rootEl Widget's DOM mount point
     */
    constructor({
-      flagUrl, title, tagline, removeWidget,
+      title, tagline, removeWidget,
       rootEl = document.getElementById('root'),
    }) {
-      this.flagUrl = flagUrl;
       this.rootEl = rootEl;
       this.forcedTitle = title;
       this.forcedTagline = tagline;
@@ -144,7 +142,6 @@ class Widget {
             selected={this.nextMatchGroupIdx}
             title={this.title}
             tagline={this.tagline}
-            flagUrl={this.flagUrl}
          />,
          this.rootEl
       );

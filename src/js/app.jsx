@@ -9,9 +9,6 @@ coreLibrary.init({
    tagline: null,
    criterionId: 1001615382,
    skipHighlightsCheck: false,
-   customCssUrl: 'https://d1fqgomuxh4f5p.cloudfront.net/customcss/match-overview-widget/{customer}/style.css',
-   customCssUrlFallback: 'https://d1fqgomuxh4f5p.cloudfront.net/customcss/match-overview-widget/kambi/style.css',
-   flagUrl: 'https://d1fqgomuxh4f5p.cloudfront.net/customcss/group-winner-widget/flags/',
    pollingInterval: 30000,
    widgetTrackingName: 'gm-group-winner-widget',
 })
@@ -33,7 +30,6 @@ coreLibrary.init({
    const widget = new Widget({
       title: coreLibrary.args.title,
       tagline: coreLibrary.args.tagline,
-      flagUrl: coreLibrary.args.flagUrl,
       removeWidget: widgetModule.removeWidget.bind(widgetModule)
    });
 
