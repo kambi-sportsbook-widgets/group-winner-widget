@@ -2,7 +2,7 @@
 
 ![](./screenshot.png)
 
-Overview of competition's group phase. Contains participants list for each group on separate tabs and allows to bet on the group winner. Widget won't show if there is no supported filter found in current highlights. 
+Overview of competition's group phase. Contains participants list for each group on separate tabs and allows to bet on the group winner. Widget won't show if there is no supported filter found in current highlights.
 
 ## Configuration example:
 
@@ -17,9 +17,6 @@ Arguments and default values:
       "tagline": null,
       "criterionId": null,
       "skipHighlightsCheck": false,
-      "customCssUrl": "https://d1fqgomuxh4f5p.cloudfront.net/customcss/match-overview-widget/{customer}/style.css",
-      "customCssUrlFallback": "https://d1fqgomuxh4f5p.cloudfront.net/customcss/match-overview-widget/kambi/style.css",
-      "flagUrl": "https://d1fqgomuxh4f5p.cloudfront.net/customcss/group-winner-widget/flags/",
       "pollingInterval": 30000,
       "widgetTrackingName": "gm-group-winner-widget"
    }
