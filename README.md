@@ -32,8 +32,6 @@ Arguments and default values:
 3. `tagline` - string - widget's tag line which will be figured out if not provided
 4. `criterionId` - number - bet offers criterion identifier
 5. `skipHighlightsCheck` - boolean - doesn't check for filter existence in highlights (good for development)
-6. `customCssUrl` - string - path to load operator-specific CSS from
-7. `customCssUrlFallback` - string - path to load CSS from in case customCssUrl does not exist
 8. `flagUrl` - string - base URL of directory which should contain necessary flags
 9. `pollingInterval` - number - interval in milliseconds to get new live data for live matches
 10. `widgetTrackingName` - string - tracking name for analytics purposes
