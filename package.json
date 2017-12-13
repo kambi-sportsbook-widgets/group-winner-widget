@@ -1,35 +1,35 @@
 {
-  "name": "group-winner-widget",
-  "version": "2.0.9",
-  "description": "Group Winner Widget",
-  "main": "dist/index.html",
-  "scripts": {
-    "clean": "kambi-widgets-cli clean",
-    "prestart": "npm run clean",
-    "start": "kambi-widgets-cli start",
-    "prebuild": "npm run clean",
-    "build": "kambi-widgets-cli build",
-    "preversion": "kambi-widgets-cli preversion",
-    "postversion": "kambi-widgets-cli postversion",
-    "test": "kambi-widgets-cli test"
-  },
-  "dependencies": {
-    "kambi-widget-components": "1.14.7",
-    "kambi-widget-core-library": "3.9.5",
-    "prop-types": "^15.4.1",
-    "react": "^15.4.1",
-    "react-dom": "^15.4.1"
-  },
-  "devDependencies": {
-    "kambi-widget-build-tools": "^3.0.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/kambi-sportsbook-widgets/group-winner-widget.git"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/kambi-sportsbook-widgets/group-winner-widget/issues"
-  },
-  "homepage": "https://github.com/kambi-sportsbook-widgets/group-winner-widget#readme"
+   "name": "group-winner-widget",
+   "version": "2.0.9",
+   "description": "Group Winner Widget",
+   "main": "dist/index.html",
+   "scripts": {
+      "clean": "kambi-widgets-cli clean",
+      "prestart": "npm run clean",
+      "start": "kambi-widgets-cli start",
+      "prebuild": "npm run clean",
+      "build": "kambi-widgets-cli build",
+      "preversion": "kambi-widgets-cli preversion",
+      "postversion": "kambi-widgets-cli postversion",
+      "test": "kambi-widgets-cli test"
+   },
+   "dependencies": {
+      "kambi-widget-components": "1.16.0",
+      "kambi-widget-core-library": "3.9.7",
+      "prop-types": "^15.4.1",
+      "react": "^15.4.1",
+      "react-dom": "^15.4.1"
+   },
+   "devDependencies": {
+      "kambi-widget-build-tools": "^4.0.0"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git+ssh://git@github.com/kambi-sportsbook-widgets/group-winner-widget.git"
+   },
+   "license": "MIT",
+   "bugs": {
+      "url": "https://github.com/kambi-sportsbook-widgets/group-winner-widget/issues"
+   },
+   "homepage": "https://github.com/kambi-sportsbook-widgets/group-winner-widget#readme"
 }
