@@ -1,2 +1,2 @@
-import './index.html';
-import './js/app';
+import './index.html'
+import './js/app'
