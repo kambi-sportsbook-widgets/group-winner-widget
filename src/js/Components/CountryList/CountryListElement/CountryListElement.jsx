@@ -13,7 +13,12 @@ const CountryListElement = ({ country, outcome, flagUrl, onClick }) => {
         {country}
       </div>
       <div className={styles.button}>
-        <OutcomeButton outcome={outcome} label={false} />
+        <OutcomeButton
+          event={{}}
+          outcome={outcome}
+          label={false}
+          updateOdds={false}
+        />
       </div>
     </li>
   )

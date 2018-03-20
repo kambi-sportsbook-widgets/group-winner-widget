@@ -23,12 +23,15 @@ exports[`CountryListElement.render() renders correctly 1`] = `
     className="button"
   >
     <OutcomeButton
+      event={Object {}}
       label={false}
       outcome={
         Object {
           "id": 100,
         }
       }
+      outlineStyle={false}
+      updateOdds={false}
     />
   </div>
 </li>
